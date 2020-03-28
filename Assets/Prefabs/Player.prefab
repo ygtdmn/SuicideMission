@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2473818134039491391}
   - component: {fileID: -759089145471379051}
   - component: {fileID: 1788593736278081798}
+  - component: {fileID: 5942242316935797625}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -96,16 +97,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b52195bf1d49114c934cdf015aff4c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
-  padding: 0.75
   health: 500
+  moveSpeed: 10
   laser: {fileID: 6086165782137368956, guid: 65fc9ab26f7591641a8c3276f5c4df67, type: 3}
   projectileSpeed: 40
-  projectileFiringPeriod: 0.1
   deathSound: {fileID: 8300000, guid: c500a66c29aa38145a02895bc90bde20, type: 3}
   shootSound: {fileID: 8300000, guid: 62d55f7398269f948b9303fbc6a13a0a, type: 3}
   deathSoundVolume: 1
   shootSoundVolume: 0.2
+  deathExplosion: {fileID: 0}
+  firingDelay: 0.1
+  padding: 0.75
 --- !u!50 &-759089145471379051
 Rigidbody2D:
   serializedVersion: 4
@@ -178,3 +180,23 @@ PolygonCollider2D:
       - {x: 0.16559651, y: -0.30059624}
       - {x: 0.33708248, y: -0.34035778}
       - {x: 0.3680368, y: -0.3454771}
+--- !u!114 &5942242316935797625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2473818134039491376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf295f8aa5e9a9c468849e5ed3af7ffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitParticle: {fileID: 0}
+  hitSprites: []
+  hitColors: []
+  soundEffect: {fileID: 0}
+  soundEffectVolume: 0.5
+  hitBackgroundObject: {fileID: 0}
+  minAlpha: 0
+  maxAlpha: 0.2

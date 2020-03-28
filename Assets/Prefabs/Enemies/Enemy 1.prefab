@@ -111,17 +111,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  minTimeBetweenShots: 0.2
-  maxTimeBetweenShots: 2.5
-  scoreToGive: 10
+  moveSpeed: 10
+  firingSpeed: 0.1
   laser: {fileID: 6086165782137368956, guid: d41c689f880cd30448b93e350b0ed2d4, type: 3}
   projectileSpeed: 20
-  explosion: {fileID: 366245989357317700, guid: 33631ce7d84bddb4a8d9a4495b745708,
-    type: 3}
   deathSound: {fileID: 8300000, guid: 47fbcc0bc9b2bff45b8ad2535bf98001, type: 3}
   shootSound: {fileID: 8300000, guid: 786ad24289ca82647abd033c84a7090f, type: 3}
   deathSoundVolume: 0.75
   shootSoundVolume: 0.5
+  deathExplosion: {fileID: 0}
+  minTimeBetweenShots: 0.2
+  maxTimeBetweenShots: 2.5
+  scoreToGive: 10
 --- !u!68 &2355570922075757418
 EdgeCollider2D:
   m_ObjectHideFlags: 0

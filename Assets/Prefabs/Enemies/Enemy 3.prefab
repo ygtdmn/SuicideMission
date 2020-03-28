@@ -110,18 +110,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5598a6c2da4a4dd43ab92d6293be8404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 600
-  minTimeBetweenShots: 1
-  maxTimeBetweenShots: 2
-  scoreToGive: 25
+  health: 1000
+  moveSpeed: 2
   laser: {fileID: 6086165782137368956, guid: 877d029a3a983e34aaf18d59b4f305b1, type: 3}
   projectileSpeed: 5
-  explosion: {fileID: 366245989357317700, guid: 33631ce7d84bddb4a8d9a4495b745708,
-    type: 3}
   deathSound: {fileID: 8300000, guid: 47fbcc0bc9b2bff45b8ad2535bf98001, type: 3}
   shootSound: {fileID: 8300000, guid: c929f41c6272a7a43b671ab217e09244, type: 3}
   deathSoundVolume: 0.75
   shootSoundVolume: 0.5
+  deathExplosion: {fileID: 366245989357317700, guid: 33631ce7d84bddb4a8d9a4495b745708,
+    type: 3}
+  minTimeBetweenShots: 1
+  maxTimeBetweenShots: 2
+  scoreToGive: 25
 --- !u!50 &-102609698610034938
 Rigidbody2D:
   serializedVersion: 4

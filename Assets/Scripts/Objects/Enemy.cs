@@ -1,89 +1,47 @@
-﻿using UnityEngine;
+﻿using Enums;
+using SuicideMission.Interface;
+using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Spaceship
 {
-    [Header("Enemy")]
-    [SerializeField] private float health = 100;
+    [Header("Enemy Specific Specs")]
     [SerializeField] private float minTimeBetweenShots = 0.2f;
     [SerializeField] private float maxTimeBetweenShots = 3f;
     [SerializeField] private int scoreToGive = 10;
-    
-    [Header("Projectile")]
-    [SerializeField] private GameObject laser;
-    [SerializeField] private float projectileSpeed = 20f;
-    
-    [Header("Particles")]
-    [SerializeField] private GameObject explosion;
-    
-    [Header("Sounds")]
-    [SerializeField] private AudioClip deathSound;
-    [SerializeField] private AudioClip shootSound;
-    [SerializeField] [Range(0,1)] private float deathSoundVolume = 0.75f;
-    [SerializeField] [Range(0,1)] private float shootSoundVolume = 0.5f;
-    
-    private float destroyBulletAfterSeconds;
-    private float shotCounter;
+
+    private float firingSpeed;
     private GameSession gameSession;
 
-    void Start()
+    protected override void Start()
     {
-        initializeShotCounter();
-        destroyBulletAfterSeconds = Camera.main.orthographicSize * 2 / projectileSpeed;
+        base.Start();
+        InitializeFiringSpeed();
         gameSession = FindObjectOfType<GameSession>();
     }
 
-    void Update()
+    protected override void Update()
     {
-        CountdownAndShoot();
+        Fire();
+    }
+    
+    private void InitializeFiringSpeed()
+    {
+        firingSpeed = Random.Range(minTimeBetweenShots, maxTimeBetweenShots);
     }
 
-    private void CountdownAndShoot()
+    protected override void Fire()
     {
-        shotCounter -= Time.deltaTime;
-        if (shotCounter <= 0f)
+        firingSpeed -= Time.deltaTime;
+        if (firingSpeed <= 0f)
         {
-            Fire();
+            Shoot(Direction.Down);
+            InitializeFiringSpeed();
         }
     }
 
-    private void initializeShotCounter()
+    protected override void Death()
     {
-        shotCounter = Random.Range(minTimeBetweenShots, maxTimeBetweenShots);
-    }
-
-    private void Fire()
-    {
-        GameObject laserBean = Instantiate(laser, transform.position, Quaternion.identity);
-        laserBean.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -projectileSpeed);
-        initializeShotCounter();
-        AudioSource.PlayClipAtPoint(shootSound, Camera.main.transform.position, shootSoundVolume);
-        Destroy(laserBean, destroyBulletAfterSeconds);
-    }
-
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        DamageDealer damageDealer = other.gameObject.GetComponent<DamageDealer>();
-        if (damageDealer == null) return;
-        ProcessHit(damageDealer);
-    }
-
-    private void ProcessHit(DamageDealer damageDealer)
-    {
-        health -= damageDealer.GetDamage();
-        damageDealer.Hit();
-        if (health <= 0)
-        {
-            Death();
-        }
-    }
-
-    private void Death()
-    {
-        var expl = Instantiate(explosion, transform.position, Quaternion.identity);
-        Destroy(gameObject);
-        Destroy(expl, expl.GetComponent<ParticleSystem>().main.duration);
-        AudioSource.PlayClipAtPoint(deathSound, Camera.main.transform.position, deathSoundVolume);
+        base.Death();
         gameSession.AddScore(scoreToGive);
     }
 }

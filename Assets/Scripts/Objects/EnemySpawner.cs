@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private List<WaveConfig> waveConfigs;
+    [SerializeField] private List<WaveConfig> waveConfigs = null;
     [SerializeField] private int startingWave = 0;
-    [SerializeField] private bool looping;
+    [SerializeField] private bool looping = true;
 
     IEnumerator Start()
     {

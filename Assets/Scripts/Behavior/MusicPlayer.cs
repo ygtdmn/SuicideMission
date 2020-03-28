@@ -2,8 +2,7 @@
 
 public class MusicPlayer : MonoBehaviour
 {
-    [SerializeField] private float gameOverMusicPitch = 0.3f;
-    private AudioSource audioSource;
+    private AudioSource audioSource = null;
 
     private void Awake()
     {

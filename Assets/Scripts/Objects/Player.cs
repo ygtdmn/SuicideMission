@@ -1,39 +1,29 @@
 ﻿using System.Collections;
+using Enums;
+using SuicideMission.Interface;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Spaceship
 {
-    [Header("Player")]
-    [SerializeField] private float moveSpeed = 10f;
+    [Header("Player Specific Specs")]
+    [SerializeField] private float firingDelay = 0.1f;
     [SerializeField] private float padding = 0.75f;
-    [SerializeField] private int health = 200;
 
-    [Header("Projectile")]
-    [SerializeField] private GameObject laser;
-    [SerializeField] private float projectileSpeed = 20f;
-    [SerializeField] private float projectileFiringPeriod = 0.1f;
-
-    [Header("Sounds")]
-    [SerializeField] private AudioClip deathSound;
-    [SerializeField] private AudioClip shootSound;
-    [SerializeField] [Range(0,1)] private float deathSoundVolume = 1f;
-    [SerializeField] [Range(0,1)] private float shootSoundVolume = 0.1f;
-
-    private float destroyBulletAfterSeconds;
     private Coroutine firingCoroutine;
 
+    // Movement Boundaries
     private float xMin;
     private float xMax;
     private float yMin;
     private float yMax;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         SetupMoveBoundaries();
-        destroyBulletAfterSeconds = Camera.main.orthographicSize * 2 / projectileSpeed;
     }
 
-    void Update()
+    protected override void Update()
     {
         Move();
         Fire();
@@ -48,7 +38,7 @@ public class Player : MonoBehaviour
         transform.position = new Vector2(newXPos, newYPos);
     }
 
-    private void Fire()
+    protected override void Fire()
     {
         if (Input.GetButtonDown("Fire1"))
         {
@@ -65,11 +55,8 @@ public class Player : MonoBehaviour
     {
         while (true)
         {
-            GameObject laserBean = Instantiate(laser, transform.position, Quaternion.identity);
-            laserBean.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectileSpeed);
-            AudioSource.PlayClipAtPoint(shootSound, Camera.main.transform.position, shootSoundVolume);
-            Destroy(laserBean, destroyBulletAfterSeconds);
-            yield return new WaitForSeconds(projectileFiringPeriod);
+            Shoot(Direction.Up);
+            yield return new WaitForSeconds(firingDelay);
         }
     }
 
@@ -84,30 +71,9 @@ public class Player : MonoBehaviour
         yMax = gameCamera.ViewportToWorldPoint(new Vector3(0, 1, 0)).y - padding;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected override void Death()
     {
-        DamageDealer damageDealer = other.gameObject.GetComponent<DamageDealer>();
-        if (damageDealer == null) return;
-        ProcessHit(damageDealer);
-    }
-
-    private void ProcessHit(DamageDealer damageDealer)
-    {
-        health -= damageDealer.GetDamage();
-        damageDealer.Hit();
-        if (health <= 0)
-        {
-            health = 0;
-            Death();
-        }
-    }
-
-    private void Death()
-    {
-        Destroy(gameObject);
-        AudioSource.PlayClipAtPoint(deathSound, Camera.main.transform.position, deathSoundVolume);
+        base.Death();
         FindObjectOfType<Level>().LoadGameOver();
     }
-
-    public int GetHealth() => health;
 }
