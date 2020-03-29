@@ -29,6 +29,14 @@ public class Player : Spaceship
         Fire();
     }
 
+    protected override void OnTriggerEnter2D(Collider2D other)
+    {
+        base.OnTriggerEnter2D(other);
+        Powerup powerup = other.gameObject.GetComponent<Powerup>();
+        if (powerup == null) return;
+        powerup.Perform(gameObject);
+    }
+
     private void Move()
     {
         var deltaX = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
@@ -76,4 +84,10 @@ public class Player : Spaceship
         base.Death();
         FindObjectOfType<Level>().LoadGameOver();
     }
+
+    // Getters
+    public float GetFiringDelay() => firingDelay;
+    public float SetFiringDelay(float firingDelay) => this.firingDelay = firingDelay;
+
+    // Setters
 }

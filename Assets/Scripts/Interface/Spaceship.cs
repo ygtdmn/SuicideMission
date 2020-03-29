@@ -8,6 +8,8 @@ namespace SuicideMission.Interface
         [Header("Specs")]
         [SerializeField] protected int health = 200;
         [SerializeField] protected float moveSpeed = 10f;
+        [SerializeField] protected int projectileDamage = 100;
+        [SerializeField] protected int collisionDamage = 500;
 
         [Header("Projectile")]
         [SerializeField] protected GameObject laser;
@@ -27,6 +29,11 @@ namespace SuicideMission.Interface
         protected virtual void Start()
         {
             destroyBulletAfterSeconds = Camera.main.orthographicSize * 2 / projectileSpeed;
+
+            if (GetComponent<DamageDealer>() != null)
+            {
+                GetComponent<DamageDealer>().SetDamage(collisionDamage);
+            } 
         }
 
         protected abstract void Update();
@@ -35,12 +42,13 @@ namespace SuicideMission.Interface
         protected void Shoot(Direction direction)
         {
             GameObject laserBean = Instantiate(laser, transform.position, Quaternion.identity);
+            laserBean.GetComponent<DamageDealer>().SetDamage(projectileDamage);
             laserBean.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectileSpeed * (int) direction);
             Destroy(laserBean, destroyBulletAfterSeconds);
             AudioSource.PlayClipAtPoint(shootSound, Camera.main.transform.position, shootSoundVolume);
         }
 
-        protected void OnTriggerEnter2D(Collider2D other)
+        protected virtual void OnTriggerEnter2D(Collider2D other)
         {
             DamageDealer damageDealer = other.gameObject.GetComponent<DamageDealer>();
             if (damageDealer == null) return;

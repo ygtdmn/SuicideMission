@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2473818134039491389}
   - component: {fileID: 2473818134039491390}
-  - component: {fileID: 2473818134039491391}
   - component: {fileID: -759089145471379051}
   - component: {fileID: 1788593736278081798}
+  - component: {fileID: 2473818134039491391}
   - component: {fileID: 5942242316935797625}
   m_Layer: 8
   m_Name: Player
@@ -85,29 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2473818134039491391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2473818134039491376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b52195bf1d49114c934cdf015aff4c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 500
-  moveSpeed: 10
-  laser: {fileID: 6086165782137368956, guid: 65fc9ab26f7591641a8c3276f5c4df67, type: 3}
-  projectileSpeed: 40
-  deathSound: {fileID: 8300000, guid: c500a66c29aa38145a02895bc90bde20, type: 3}
-  shootSound: {fileID: 8300000, guid: 62d55f7398269f948b9303fbc6a13a0a, type: 3}
-  deathSoundVolume: 1
-  shootSoundVolume: 0.2
-  deathExplosion: {fileID: 0}
-  firingDelay: 0.1
-  padding: 0.75
 --- !u!50 &-759089145471379051
 Rigidbody2D:
   serializedVersion: 4
@@ -180,6 +157,31 @@ PolygonCollider2D:
       - {x: 0.16559651, y: -0.30059624}
       - {x: 0.33708248, y: -0.34035778}
       - {x: 0.3680368, y: -0.3454771}
+--- !u!114 &2473818134039491391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2473818134039491376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b52195bf1d49114c934cdf015aff4c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 500
+  moveSpeed: 10
+  projectileDamage: 100
+  collisionDamage: 500
+  laser: {fileID: 6086165782137368956, guid: 65fc9ab26f7591641a8c3276f5c4df67, type: 3}
+  projectileSpeed: 40
+  deathSound: {fileID: 8300000, guid: c500a66c29aa38145a02895bc90bde20, type: 3}
+  shootSound: {fileID: 8300000, guid: 62d55f7398269f948b9303fbc6a13a0a, type: 3}
+  deathSoundVolume: 1
+  shootSoundVolume: 0.2
+  deathExplosion: {fileID: 0}
+  firingDelay: 0.1
+  padding: 0.75
 --- !u!114 &5942242316935797625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,7 +196,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitParticle: {fileID: 0}
   hitSprites: []
-  hitColors: []
+  gradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
   soundEffect: {fileID: 0}
   soundEffectVolume: 0.5
   hitBackgroundObject: {fileID: 0}

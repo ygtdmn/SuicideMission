@@ -13,6 +13,7 @@ public class HitIndicator : MonoBehaviour
     [SerializeField] private Sprite[] hitSprites;
 
     [Header("Color")]
+    [SerializeField] private bool colorActive = false;
     [SerializeField] private Gradient gradient;
 
     [Header("Sound Effect")]
@@ -38,7 +39,7 @@ public class HitIndicator : MonoBehaviour
         spaceship = GetComponent<Spaceship>();
         initialHealth = spaceship.GetHealth();
 
-        if (hitSprites.Length > 0 || gradient.colorKeys.Length > 0)
+        if (hitSprites.Length > 0 || colorActive)
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
@@ -67,7 +68,7 @@ public class HitIndicator : MonoBehaviour
             ChangeSprite();
         }
 
-        if (gradient.colorKeys.Length > 0)
+        if (colorActive)
         {
             ChangeColor();
         }

@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class DamageDealer : MonoBehaviour
 {
-    [SerializeField] private int damage = 100;
+    private int damage;
 
     public int GetDamage() => damage;
+    public void SetDamage(int damage) => this.damage = damage;
 
     public void Hit()
     {
