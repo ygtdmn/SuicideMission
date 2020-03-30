@@ -23,7 +23,12 @@ namespace SuicideMission.Interface
 
         [Header("Particles")]
         [SerializeField] protected GameObject deathExplosion;
-        
+
+        [Header("Death Animation")]
+        [SerializeField] protected GameObject deathAnimation;
+        [SerializeField] protected float animationSpeed = 2f;
+        [SerializeField] protected float destoryAnimationAfterSeconds = 0.5f;
+
         private float destroyBulletAfterSeconds;
 
         protected virtual void Start()
@@ -33,7 +38,7 @@ namespace SuicideMission.Interface
             if (GetComponent<DamageDealer>() != null)
             {
                 GetComponent<DamageDealer>().SetDamage(collisionDamage);
-            } 
+            }
         }
 
         protected abstract void Update();
@@ -74,13 +79,29 @@ namespace SuicideMission.Interface
 
         protected virtual void Death()
         {
-            if (deathExplosion != null)
-            {
-                Utils.PlayParticle(deathExplosion, transform);
-            }
-
+            DeathExplosion();
+            DeathAnimation();
             Destroy(gameObject);
             AudioSource.PlayClipAtPoint(deathSound, Camera.main.transform.position, deathSoundVolume);
+        }
+
+
+        private void DeathExplosion()
+        {
+            if (deathExplosion != null)
+            {
+                Utils.PlayParticle(deathExplosion, transform.position);
+            }
+        }
+
+        private void DeathAnimation()
+        {
+            if (deathAnimation != null)
+            {
+                var anim = Instantiate(deathAnimation, transform.position, Quaternion.identity);
+                anim.GetComponent<Animator>().speed = animationSpeed;
+                Destroy(anim, destoryAnimationAfterSeconds);
+            }
         }
 
         // Getters
