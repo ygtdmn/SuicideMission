@@ -50,7 +50,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -140,4 +140,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882f34bd295cf864e857330776e0b436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverMusicPitch: 0.3

@@ -1,12 +1,40 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public abstract class Powerup : MonoBehaviour
+namespace Interface
 {
-    protected float duration;
-
-    public virtual void Perform(GameObject gameObject)
+    public abstract class Powerup : MonoBehaviour
     {
-        this.gameObject.GetComponent<Renderer>().enabled = false;
-        this.gameObject.GetComponent<Collider>().enabled = false;
+        [SerializeField] protected float spawnChance;
+        [SerializeField] protected float dropSpeed = 5f;
+        [SerializeField] private float destroyAfterY = -15f;
+
+        private void Update()
+        {
+            if (transform.position.y < destroyAfterY)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.GetComponent<Player>() != null)
+            {
+                HidePowerup();
+                Execute(other.gameObject);
+            }
+        }
+
+        private void HidePowerup()
+        {
+            GetComponent<Renderer>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
+            GetComponent<Rigidbody2D>().simulated = false;
+        }
+
+        protected abstract void Execute(GameObject gameObject);
+        public float GetSpawnChance() => spawnChance;
+        public float GetDropSpeed() => dropSpeed;
     }
 }

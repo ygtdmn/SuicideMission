@@ -1,24 +1,19 @@
-﻿using System.Collections;
+﻿using Interface;
 using UnityEngine;
 
-public class FastShoot : Powerup
+namespace Powerups
 {
-    private Player player;
-    private new const float duration = 5f;
-
-    public override void Perform(GameObject gameObject)
+    public class FastShoot : Powerup
     {
-        base.Perform(gameObject);
-        player = gameObject.GetComponent<Player>();
-        StartCoroutine(Set2xSpeed());
-    }
+        private Player player;
+        [SerializeField] protected float boost = 2f;
+        [SerializeField] protected float duration;
 
-    private IEnumerator Set2xSpeed()
-    {
-        var initialDelay = player.GetFiringDelay();
-        player.SetFiringDelay(initialDelay / 2);
-        yield return new WaitForSeconds(duration);
-        player.SetFiringDelay(initialDelay);
-        Destroy(gameObject);
+        protected override void Execute(GameObject gameObject)
+        {
+            player = gameObject.GetComponent<Player>();
+            player.GiveSpeedBoost(boost, duration);
+            Destroy(this.gameObject);
+        }
     }
 }

@@ -9,6 +9,14 @@ public class Player : Spaceship
     [SerializeField] private float firingDelay = 0.1f;
     [SerializeField] private float padding = 0.75f;
 
+    private float shootingSpeedBoost = 1f;
+    private float shootingSpeedBoostRemainingTime = 0f;
+
+    private float laserSizeBoost = 1f;
+    private float laserSizeBoostRemainingTime = 0f;
+
+    private float trippleLaserBoostRemainingTime = 0f;
+
     private Coroutine firingCoroutine;
 
     // Movement Boundaries
@@ -27,14 +35,41 @@ public class Player : Spaceship
     {
         Move();
         Fire();
+        UpdateBoostTimers();
     }
 
-    protected override void OnTriggerEnter2D(Collider2D other)
+    private void UpdateBoostTimers()
     {
-        base.OnTriggerEnter2D(other);
-        Powerup powerup = other.gameObject.GetComponent<Powerup>();
-        if (powerup == null) return;
-        powerup.Perform(gameObject);
+        if (shootingSpeedBoostRemainingTime > 0)
+        {
+            shootingSpeedBoostRemainingTime -= Time.deltaTime;
+        }
+
+        if (laserSizeBoostRemainingTime > 0)
+        {
+            laserSizeBoostRemainingTime -= Time.deltaTime;
+        }
+
+        if (shootingSpeedBoostRemainingTime <= 0)
+        {
+            shootingSpeedBoostRemainingTime = 0;
+            shootingSpeedBoost = 1f;
+        }
+
+        if (laserSizeBoostRemainingTime <= 1)
+        {
+            laserSizeBoostRemainingTime = 0;
+            laserSizeBoost = 1f;
+        }
+
+        if (trippleLaserBoostRemainingTime > 0)
+        {
+            trippleLaserBoostRemainingTime -= Time.deltaTime;
+        }
+        else
+        {
+            trippleLaserBoostRemainingTime = 0;
+        }
     }
 
     private void Move()
@@ -64,8 +99,52 @@ public class Player : Spaceship
         while (true)
         {
             Shoot(Direction.Up);
-            yield return new WaitForSeconds(firingDelay);
+            yield return new WaitForSeconds(firingDelay / shootingSpeedBoost);
         }
+    }
+
+    protected override void Shoot(Direction direction)
+    {
+        int laserBeanCount = 1;
+        if (trippleLaserBoostRemainingTime > 0)
+        {
+            laserBeanCount = 3;
+        }
+
+        for (int i = 0; i < laserBeanCount; i++)
+        {
+            GameObject laserBean = Instantiate(laser, transform.position, laser.transform.rotation);
+            laserBean.transform.localScale *= laserSizeBoost;
+
+            if (laserBeanCount == 3)
+            {
+                switch (i)
+                {
+                    case 0:
+                    {
+                        Vector3 pos = laserBean.transform.position;
+                        pos.x -= 0.3f;
+                        pos.y -= 0.2f;
+                        laserBean.transform.position = pos;
+                        break;
+                    }
+                    case 2:
+                    {
+                        Vector3 pos = laserBean.transform.position;
+                        pos.x += 0.3f;
+                        pos.y -= 0.2f;
+                        laserBean.transform.position = pos;
+                        break;
+                    }
+                }
+            }
+
+            laserBean.GetComponent<DamageDealer>().SetDamage(projectileDamage);
+            laserBean.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectileSpeed * (int) direction);
+            Destroy(laserBean, destroyBulletAfterSeconds);
+        }
+
+        AudioSource.PlayClipAtPoint(shootSound, cameraPosition, shootSoundVolume);
     }
 
     private void SetupMoveBoundaries()
@@ -83,6 +162,31 @@ public class Player : Spaceship
     {
         base.Death();
         FindObjectOfType<Level>().LoadGameOver();
+    }
+
+    public void GiveSpeedBoost(float boost, float duration)
+    {
+        if (shootingSpeedBoostRemainingTime <= 0)
+        {
+            shootingSpeedBoost += boost;
+        }
+
+        shootingSpeedBoostRemainingTime += duration;
+    }
+
+    public void GiveLaserSizeBoost(float boost, float duration)
+    {
+        if (laserSizeBoostRemainingTime <= 0)
+        {
+            laserSizeBoost += boost;
+        }
+
+        laserSizeBoostRemainingTime += duration;
+    }
+
+    public void GiveTrippleLaserBoost(float duration)
+    {
+        trippleLaserBoostRemainingTime += duration;
     }
 
     // Getters

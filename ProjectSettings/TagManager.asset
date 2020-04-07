@@ -6,6 +6,7 @@ TagManager:
   tags:
   - EnemyLaser
   - PlayerLaser
+  - Loop Path
   layers:
   - Default
   - TransparentFX

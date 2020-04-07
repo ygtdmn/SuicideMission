@@ -252,8 +252,8 @@ MonoBehaviour:
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   colorFlashActive: 1
-  minColorFlashAlpha: 0.8
-  maxColorFlashAlpha: 0.9
+  flashColor: {r: 1, g: 0.20392157, b: 0.27686834, a: 1}
+  flashSpeed: 3
   soundEffect: {fileID: 0}
   soundEffectVolume: 0.5
   hitBackgroundObject: {fileID: 0}

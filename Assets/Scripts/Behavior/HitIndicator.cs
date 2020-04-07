@@ -74,7 +74,7 @@ public class HitIndicator : MonoBehaviour
     {
         if (hitParticle != null)
         {
-            Utils.PlayParticle(hitParticle, hitParticle.transform.position, transform);
+            Utils.PlayParticle(hitParticle, gameObject.transform.position, transform);
         }
 
         if (hitSprites.Length > 0)
@@ -104,7 +104,7 @@ public class HitIndicator : MonoBehaviour
 
         if (soundEffect != null)
         {
-            AudioSource.PlayClipAtPoint(soundEffect, Camera.main.transform.position, soundEffectVolume);
+            AudioSource.PlayClipAtPoint(soundEffect, spaceship.cameraPosition, soundEffectVolume);
         }
 
         if (hitBackgroundObject != null)

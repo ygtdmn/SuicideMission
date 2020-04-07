@@ -16,7 +16,7 @@ namespace SuicideMission.Interface
         [SerializeField] protected float projectileSpeed = 20f;
 
         [Header("Sounds")]
-        [SerializeField] protected AudioClip deathSound;
+        [SerializeField] protected AudioClip[] deathSounds;
         [SerializeField] protected AudioClip shootSound;
         [SerializeField] [Range(0, 1)] protected float deathSoundVolume = 0.75f;
         [SerializeField] [Range(0, 1)] protected float shootSoundVolume = 0.5f;
@@ -29,10 +29,13 @@ namespace SuicideMission.Interface
         [SerializeField] protected float animationSpeed = 2f;
         [SerializeField] protected float destoryAnimationAfterSeconds = 0.5f;
 
-        private float destroyBulletAfterSeconds;
+        protected float destroyBulletAfterSeconds;
+        public Vector3 cameraPosition;
 
         protected virtual void Start()
         {
+            cameraPosition = Camera.main.transform.position;
+
             destroyBulletAfterSeconds = Camera.main.orthographicSize * 2 / projectileSpeed;
 
             if (GetComponent<DamageDealer>() != null)
@@ -44,13 +47,13 @@ namespace SuicideMission.Interface
         protected abstract void Update();
         protected abstract void Fire();
 
-        protected void Shoot(Direction direction)
+        protected virtual void Shoot(Direction direction)
         {
-            GameObject laserBean = Instantiate(laser, transform.position, Quaternion.identity);
+            GameObject laserBean = Instantiate(laser, transform.position, laser.transform.rotation);
             laserBean.GetComponent<DamageDealer>().SetDamage(projectileDamage);
             laserBean.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectileSpeed * (int) direction);
             Destroy(laserBean, destroyBulletAfterSeconds);
-            AudioSource.PlayClipAtPoint(shootSound, Camera.main.transform.position, shootSoundVolume);
+            AudioSource.PlayClipAtPoint(shootSound, cameraPosition, shootSoundVolume);
         }
 
         protected virtual void OnTriggerEnter2D(Collider2D other)
@@ -82,9 +85,17 @@ namespace SuicideMission.Interface
             DeathExplosion();
             DeathAnimation();
             Destroy(gameObject);
-            AudioSource.PlayClipAtPoint(deathSound, Camera.main.transform.position, deathSoundVolume);
+            DeathSound();
         }
 
+        private void DeathSound()
+        {
+            if (deathSounds.Length > 0)
+            {
+                AudioSource.PlayClipAtPoint(deathSounds[Random.Range(0, deathSounds.Length)],
+                    cameraPosition, deathSoundVolume);
+            }
+        }
 
         private void DeathExplosion()
         {
