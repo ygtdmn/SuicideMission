@@ -44,8 +44,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerups:
-  - {fileID: 4667484312259577749, guid: 0ff9fda17c644e242bfb1cba17e7323e, type: 3}
-  - {fileID: 2881337641104000568, guid: 1451b096d86da894bada0c156386e102, type: 3}
-  - {fileID: -1053339718275440461, guid: c40554cbb7a13eb49bd5f6796c7453c8, type: 3}
+  - {fileID: 4667484312259577748, guid: c40554cbb7a13eb49bd5f6796c7453c8, type: 3}
+  - {fileID: 4667484312259577748, guid: 0ff9fda17c644e242bfb1cba17e7323e, type: 3}
+  - {fileID: 4667484312259577748, guid: 1451b096d86da894bada0c156386e102, type: 3}
+  - {fileID: 4667484312259577748, guid: 69190633a6e635b4b9dc1bd8a8ad4721, type: 3}
+  - {fileID: 4667484312259577748, guid: aaa048460a2770b40bece43745163b95, type: 3}
+  - {fileID: 4667484312259577748, guid: 09a526c794e271149947f0ba20525e0b, type: 3}
   minSpawningDelay: 5
   maxSpawningDelay: 15
+  padding: 0.75

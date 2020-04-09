@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57eaeb5b509b024cbef13ae094bc518, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnChance: 25
+  spawnChance: 10
   dropSpeed: 5
   destroyAfterY: -15
   duration: 5

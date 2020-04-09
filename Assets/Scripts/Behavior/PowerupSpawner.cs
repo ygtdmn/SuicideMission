@@ -8,12 +8,13 @@ namespace Behavior
 {
     public class PowerupSpawner : MonoBehaviour
     {
-        [SerializeField] private Powerup[] powerups;
+        [SerializeField] private GameObject[] powerups;
         [SerializeField] private float minSpawningDelay;
         [SerializeField] private float maxSpawningDelay;
+        [SerializeField] private float padding = 0.75f;
 
         private List<Items<Powerup>> powerupList;
-        
+
         private float xMin;
         private float xMax;
         private float yMin;
@@ -26,23 +27,24 @@ namespace Behavior
             yield return new WaitForSeconds(Random.Range(minSpawningDelay, maxSpawningDelay));
             StartCoroutine(Spawn());
         }
-        
+
         private void SetupBoundaries()
         {
             Camera gameCamera = Camera.main;
 
-            xMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
-            xMax = gameCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x;
+            xMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x + padding;
+            xMax = gameCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x - padding;
 
-            yMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).y;
-            yMax = gameCamera.ViewportToWorldPoint(new Vector3(0, 1, 0)).y ;
+            yMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).y + padding;
+            yMax = gameCamera.ViewportToWorldPoint(new Vector3(0, 1, 0)).y - padding;
         }
 
         private void InitializeChanceTable()
         {
             powerupList = new List<Items<Powerup>>();
-            foreach (var powerup in powerups)
+            foreach (var powerupObject in powerups)
             {
+                var powerup = powerupObject.GetComponent<Powerup>();
                 powerupList.Add(new Items<Powerup> {Probability = (powerup.GetSpawnChance() / 100.0), Item = powerup});
             }
 

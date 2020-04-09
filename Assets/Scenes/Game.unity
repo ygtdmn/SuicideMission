@@ -692,17 +692,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1943675192107280745, guid: f025ed925b2750e48944e2ada4b69e2f,
-        type: 3}
-      propertyPath: powerups.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1943675192107280745, guid: f025ed925b2750e48944e2ada4b69e2f,
-        type: 3}
-      propertyPath: powerups.Array.data[3]
-      value: 
-      objectReference: {fileID: -7428651300522654067, guid: 09a526c794e271149947f0ba20525e0b,
-        type: 3}
     - target: {fileID: 1943675192107280750, guid: f025ed925b2750e48944e2ada4b69e2f,
         type: 3}
       propertyPath: m_Name
@@ -757,6 +746,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d14cd1e435b05e447b1ee20efe09e743,
         type: 2}
+    - target: {fileID: 2467567988538666858, guid: fa2a4bd05390f6a43a4b69e3f21ce22d,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2467567988538666859, guid: fa2a4bd05390f6a43a4b69e3f21ce22d,
         type: 3}
       propertyPath: m_Name

@@ -9,6 +9,7 @@ public class WaveConfig : ScriptableObject
     [SerializeField] private float timeBetweenSpawns = 0.5f;
     [SerializeField] private float spawnRandomFactor = 0.3f;
     [SerializeField] private int numberOfEnemies = 5;
+    [SerializeField] private bool pathLooping = false;
 
     public GameObject GetEnemyPrefab() => enemyPrefab;
     public GameObject GetPathPrefab() => pathPrefab;

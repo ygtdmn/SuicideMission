@@ -166,22 +166,28 @@ public class Player : Spaceship
 
     public void GiveSpeedBoost(float boost, float duration)
     {
-        if (shootingSpeedBoostRemainingTime <= 0)
+        if (shootingSpeedBoostRemainingTime <= 0 || shootingSpeedBoost != boost)
         {
-            shootingSpeedBoost += boost;
+            shootingSpeedBoost = boost;
+            shootingSpeedBoostRemainingTime = duration;
         }
-
-        shootingSpeedBoostRemainingTime += duration;
+        else
+        {
+            shootingSpeedBoostRemainingTime += duration;
+        }
     }
 
     public void GiveLaserSizeBoost(float boost, float duration)
     {
-        if (laserSizeBoostRemainingTime <= 0)
+        if (laserSizeBoostRemainingTime <= 0 || laserSizeBoost != boost)
         {
-            laserSizeBoost += boost;
+            laserSizeBoost = boost;
+            laserSizeBoostRemainingTime = duration;
         }
-
-        laserSizeBoostRemainingTime += duration;
+        else
+        {
+            laserSizeBoostRemainingTime += duration;
+        }
     }
 
     public void GiveTrippleLaserBoost(float duration)

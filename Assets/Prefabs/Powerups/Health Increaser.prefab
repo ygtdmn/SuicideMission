@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b508f72c3ad444728ec0f45df4272dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnChance: 25
+  spawnChance: 10
   dropSpeed: 5
   destroyAfterY: -15
   healthToAdd: 500

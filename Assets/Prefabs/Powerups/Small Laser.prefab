@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4667484312259577750}
   - component: {fileID: -1053339718275440461}
   m_Layer: 0
-  m_Name: Big Laser
+  m_Name: Small Laser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 841965f5f3e6eaa41b6d4156b6465c9f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 12645f19ba5ca9b4cbbca28efc65dfa7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -159,5 +159,5 @@ MonoBehaviour:
   spawnChance: 10
   dropSpeed: 5
   destroyAfterY: -15
-  sizeBoost: 2
+  sizeBoost: 0.5
   duration: 5

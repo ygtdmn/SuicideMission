@@ -121,3 +121,5 @@ _UpgradeReport_Files/
 .idea/.idea.Laser Defender/.idea/indexLayout.xml
 .idea/.idea.Laser Defender/.idea/encodings.xml
 .idea/.idea.Laser Defender/.idea/$CACHE_FILE$
+.uerp
+Assets/Editor*

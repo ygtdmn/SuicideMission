@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 4667484312259577744}
   - component: {fileID: 4667484312259577751}
   - component: {fileID: 4667484312259577750}
-  - component: {fileID: -1053339718275440461}
+  - component: {fileID: 4667484312259577749}
   m_Layer: 0
-  m_Name: Big Laser
+  m_Name: Slow Shoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,12 +73,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 841965f5f3e6eaa41b6d4156b6465c9f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ad5c40928481b634faec09349424ae36, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.9, y: 1.17}
+  m_Size: {x: 1.0857143, y: 0.6685714}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -123,7 +123,7 @@ PolygonCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1.0857143, y: 0.6685714}
-    newSize: {x: 1.9, y: 1.17}
+    newSize: {x: 1.0857143, y: 0.6685714}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -144,7 +144,7 @@ PolygonCollider2D:
       - {x: 0.34285715, y: -0.28857142}
       - {x: 0.5428571, y: -0.105714284}
       - {x: 0.5428571, y: 0.08285714}
---- !u!114 &-1053339718275440461
+--- !u!114 &4667484312259577749
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -153,11 +153,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4667484312259577748}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecaa6f7441012414083d83825b05f5c1, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f1d63c79c9c04b4aa6852eb65a8e40c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spawnChance: 10
   dropSpeed: 5
   destroyAfterY: -15
-  sizeBoost: 2
+  boost: 0.5
   duration: 5
