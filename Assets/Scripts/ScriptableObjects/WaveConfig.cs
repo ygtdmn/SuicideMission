@@ -9,13 +9,19 @@ public class WaveConfig : ScriptableObject
     [SerializeField] private float timeBetweenSpawns = 0.5f;
     [SerializeField] private float spawnRandomFactor = 0.3f;
     [SerializeField] private int numberOfEnemies = 5;
-    [SerializeField] private bool pathLooping = false;
+    [SerializeField] private bool continuousSpawning = false;
+    [SerializeField] private bool pathLooping = true;
+    [SerializeField] private bool destroyAfterPathEnded = false;
 
     public GameObject GetEnemyPrefab() => enemyPrefab;
     public GameObject GetPathPrefab() => pathPrefab;
     public float GetTimeBetweenSpawns() => timeBetweenSpawns;
     public float GetSpawnRandomFactor() => spawnRandomFactor;
     public int GetNumberOfEnemies() => numberOfEnemies;
+
+    public bool GetContinuousSpawning => continuousSpawning;
+    public bool GetDestroyAfterPathEnded => destroyAfterPathEnded;
+    public bool GetPathLooping => pathLooping;
 
     public List<Transform> GetWaypoints()
     {
