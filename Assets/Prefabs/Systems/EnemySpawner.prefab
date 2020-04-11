@@ -43,10 +43,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e259267a8a82744b6eb43fe5d0ec7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveConfigs:
-  - {fileID: 11400000, guid: 52038ddb9c55b87448cab5ae3c1f6be5, type: 2}
-  - {fileID: 11400000, guid: 95885fdee720bd248abb2820c92bf473, type: 2}
-  - {fileID: 11400000, guid: e4a23d9582d8cb14ba6dcf49be5c000c, type: 2}
-  - {fileID: 11400000, guid: 11c8d9256726ac54eafccbe55912c97a, type: 2}
-  startingWave: 0
-  looping: 1
+  levelConfigs:
+  - {fileID: 11400000, guid: 342dc58d3c88cc945b04bd0e4ea76a07, type: 2}
+  - {fileID: 11400000, guid: c90c4be84085fc442a4cfa0ce04afd4b, type: 2}
+  - {fileID: 11400000, guid: 839e47e87ad264b42b2f8848435d3390, type: 2}
+  - {fileID: 11400000, guid: 5418f7cd6c5c8e64ca34b69b7e283a9e, type: 2}
+  - {fileID: 11400000, guid: ce303fa601d143344835d35aaf0002a1, type: 2}
+  - {fileID: 11400000, guid: 9c13bcd02adbd204184c80e1fc881c08, type: 2}
+  startingLevel: 0
+  enemyPathingObject: {fileID: 4570766133198849300, guid: 02dc074d93075934e8607e0f287a8bab,
+    type: 3}
+  waveText: {fileID: 0}
+  timeBeforeWaves: 5
+  waveIndicatorDuration: 4

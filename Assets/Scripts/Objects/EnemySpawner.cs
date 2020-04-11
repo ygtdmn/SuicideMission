@@ -9,16 +9,21 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private int startingLevel;
     [SerializeField] private GameObject enemyPathingObject;
     [SerializeField] private TextMeshProUGUI waveText;
+    [SerializeField] private float timeBeforeWaves = 5f;
+    [SerializeField] private float waveIndicatorDuration = 4f;
 
     private string initialWaveText;
 
-    private void Start()
+    private IEnumerator Start()
     {
-        initialWaveText = waveText.text.Replace("%totalWave%", levelConfigs.Count.ToString());
-        waveText.text =
-            initialWaveText.Replace("%wave%", startingLevel.ToString());
-        waveText.enabled = false;
         StartCoroutine(SpawnAllLevels());
+        initialWaveText = waveText.text.Replace("$2", levelConfigs.Count.ToString());
+        waveText.text =
+            initialWaveText.Replace("$1", (startingLevel + 1).ToString());
+        
+        waveText.enabled = true;
+        yield return new WaitForSeconds(waveIndicatorDuration);
+        waveText.enabled = false;
     }
 
     private IEnumerator SpawnAllLevels()
@@ -39,7 +44,15 @@ public class EnemySpawner : MonoBehaviour
             yield return new WaitWhile(() => FindObjectsOfType<Enemy>().Length > 0);
 
             //Enemies are dead. Do your show and lets spawn the new level.
-            StartCoroutine(WaveOverShow(levelIndex + 1, levelIndex + 2));
+            if (levelIndex + 2 <= levelConfigs.Count)
+            {
+                StartCoroutine(WaveOverShow(levelIndex + 1, levelIndex + 2));
+                yield return new WaitForSeconds(timeBeforeWaves);
+            }
+            else
+            {
+                // Game over.
+            }
         }
     }
 
@@ -61,9 +74,9 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator WaveOverShow(int oldLevel, int newLevel)
     {
-        waveText.text = initialWaveText.Replace("%wave%", newLevel.ToString());
+        waveText.text = initialWaveText.Replace("$1", newLevel.ToString());
         waveText.enabled = true;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(waveIndicatorDuration);
         waveText.enabled = false;
     }
 }

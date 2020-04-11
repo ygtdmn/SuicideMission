@@ -172,7 +172,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 250f14aa53eae0349904a6f77628b49c, type: 3}
   shootSound: {fileID: 8300000, guid: c929f41c6272a7a43b671ab217e09244, type: 3}
   deathSoundVolume: 1
-  shootSoundVolume: 0.5
+  shootSoundVolume: 0.35
   deathExplosion: {fileID: 1612221337289516, guid: 85ab2ba31682fca4e9c1e40ea154ee43,
     type: 3}
   deathAnimation: {fileID: 3431275181473238272, guid: f985983b8fdfa41409073768a1a36e09,
@@ -231,7 +231,7 @@ MonoBehaviour:
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashSpeed: 7
   soundEffect: {fileID: 8300000, guid: dc348e7b5146dc144b5f6866d0a2e6ba, type: 3}
-  soundEffectVolume: 0.5
+  soundEffectVolume: 0.3
   hitBackgroundObject: {fileID: 0}
   minBackgroundAlpha: 0
   maxBackgroundAlpha: 0.3

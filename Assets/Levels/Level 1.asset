@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: Level 1
   m_EditorClassIdentifier: 
   waveConfigs:
-  - {fileID: 11400000, guid: 376929dfd5cd61a43b7d2c7147feb564, type: 2}
-  - {fileID: 11400000, guid: 2daf804d09a13de489eb2750474a6c8d, type: 2}
-  - {fileID: 11400000, guid: 5dbbe978257141642af4cfbed7022bd7, type: 2}
-  - {fileID: 11400000, guid: 2a951fb8fc500b74e847aa892980f992, type: 2}
+  - {fileID: 11400000, guid: 4b3bf07e4a0a15b41a3341b47a5b2f90, type: 2}
+  - {fileID: 11400000, guid: e30c8cc5e63583f489cf75bc157cb76e, type: 2}
   startingWave: 0
   timeBetweenWaveSpawns: 1

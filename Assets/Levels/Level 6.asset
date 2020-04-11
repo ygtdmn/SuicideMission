@@ -10,12 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c270eefc12f8e5e45b4a34ceeb39a9ad, type: 3}
-  m_Name: Level 2
+  m_Name: Level 6
   m_EditorClassIdentifier: 
   waveConfigs:
-  - {fileID: 11400000, guid: 589848b5b8ec81641bceb72befa4f71a, type: 2}
-  - {fileID: 11400000, guid: 8d9d60733b853ec4294f046a1bccf784, type: 2}
-  - {fileID: 11400000, guid: 55faa6fb115a10048b7295333fdf5a6b, type: 2}
-  - {fileID: 11400000, guid: 907ddb2c822fbb141813f65f5670db51, type: 2}
+  - {fileID: 11400000, guid: 32237ff3f67706e4e816d52aec1f5dfd, type: 2}
+  - {fileID: 11400000, guid: cff1c24a349baf94db095b73346e0d55, type: 2}
   startingWave: 0
-  timeBetweenWaveSpawns: 1
+  timeBetweenWaveSpawns: 0
