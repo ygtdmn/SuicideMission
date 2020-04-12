@@ -273,8 +273,12 @@ MonoBehaviour:
   deathAnimation: {fileID: 0}
   animationSpeed: 2
   destoryAnimationAfterSeconds: 0.5
+  cameraPosition: {x: 0, y: 0, z: 0}
   firingDelay: 0.1
   padding: 0.75
+  weaponHeatFactor: 20
+  weaponHeatWaitingTime: 22.5
+  weaponHeatReduceFactor: 4
 --- !u!114 &5942242316935797625
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,6 +9,11 @@ public class Player : Spaceship
     [SerializeField] private float firingDelay = 0.1f;
     [SerializeField] private float padding = 0.75f;
 
+    [SerializeField] private float weaponHeatFactor = 20;
+    [SerializeField] private float weaponHeatWaitingTime = 25f;
+    [SerializeField] private float weaponHeatReduceFactor = 6;
+    [SerializeField] private GameObject heatIndicator;
+
     private float shootingSpeedBoost = 1f;
     private float shootingSpeedBoostRemainingTime = 0f;
 
@@ -18,6 +23,8 @@ public class Player : Spaceship
     private float trippleLaserBoostRemainingTime = 0f;
 
     private Coroutine firingCoroutine;
+
+    private float weaponHeat;
 
     // Movement Boundaries
     private float xMin;
@@ -36,6 +43,8 @@ public class Player : Spaceship
         Move();
         Fire();
         UpdateBoostTimers();
+
+        heatIndicator.transform.localScale = new Vector3(1, Mathf.Clamp(weaponHeat / weaponHeatFactor, 0, 1), 1);
     }
 
     private void UpdateBoostTimers()
@@ -52,6 +61,8 @@ public class Player : Spaceship
 
         if (shootingSpeedBoostRemainingTime <= 0)
         {
+            weaponHeatFactor /= shootingSpeedBoost;
+            weaponHeatWaitingTime /= shootingSpeedBoost;
             shootingSpeedBoostRemainingTime = 0;
             shootingSpeedBoost = 1f;
         }
@@ -86,11 +97,18 @@ public class Player : Spaceship
         if (Input.GetButtonDown("Fire1"))
         {
             firingCoroutine = StartCoroutine(FireContinuously());
+            return;
         }
 
         if (Input.GetButtonUp("Fire1"))
         {
             StopCoroutine(firingCoroutine);
+            return;
+        }
+
+        if (weaponHeat >= 0)
+        {
+            weaponHeat -= Time.deltaTime * weaponHeatReduceFactor;
         }
     }
 
@@ -105,6 +123,11 @@ public class Player : Spaceship
 
     protected override void Shoot(Direction direction)
     {
+        if (weaponHeat >= weaponHeatFactor)
+        {
+            return;
+        }
+
         int laserBeanCount = 1;
         if (trippleLaserBoostRemainingTime > 0)
         {
@@ -144,7 +167,17 @@ public class Player : Spaceship
             Destroy(laserBean, destroyBulletAfterSeconds);
         }
 
+        HeatWeapon();
         AudioSource.PlayClipAtPoint(shootSound, cameraPosition, shootSoundVolume);
+    }
+
+    private void HeatWeapon()
+    {
+        weaponHeat++;
+        if (weaponHeat >= weaponHeatFactor)
+        {
+            weaponHeat = weaponHeatWaitingTime;
+        }
     }
 
     private void SetupMoveBoundaries()
@@ -168,6 +201,9 @@ public class Player : Spaceship
     {
         if (shootingSpeedBoostRemainingTime <= 0 || shootingSpeedBoost != boost)
         {
+            weaponHeatFactor *= boost;
+            weaponHeatWaitingTime *= boost;
+            
             shootingSpeedBoost = boost;
             shootingSpeedBoostRemainingTime = duration;
         }

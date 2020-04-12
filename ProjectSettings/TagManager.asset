@@ -21,7 +21,7 @@ TagManager:
   - Enemy
   - Player Projectile
   - Enemy Projectile
-  - 
+  - Planet
   - 
   - 
   - 
@@ -42,7 +42,7 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Projectiles
+  - name: Planet
     uniqueID: 1886481659
     locked: 0
   - name: Default
