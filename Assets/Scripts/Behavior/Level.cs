@@ -38,10 +38,17 @@ public class Level : MonoBehaviour
     {
         StartCoroutine(WaitAndLoadGameOver());
     }
-
+    
     private IEnumerator WaitAndLoadGameOver()
     {
         yield return new WaitForSeconds(gameOverLoadDelay);
+        SceneManager.LoadScene("Game Over");
+        FindObjectOfType<MusicPlayer>().setPitch(gameOverPitch);
+    }
+
+    public IEnumerator WaitAndLoadGameOver(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         SceneManager.LoadScene("Game Over");
         FindObjectOfType<MusicPlayer>().setPitch(gameOverPitch);
     }

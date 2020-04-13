@@ -11,20 +11,32 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private TextMeshProUGUI waveText;
     [SerializeField] private float timeBeforeWaves = 5f;
     [SerializeField] private float waveIndicatorDuration = 4f;
+    [SerializeField] private float gameOverDelay = 4f;
 
     private string initialWaveText;
     private AudioSource audioSource;
     private AudioClip defaultClip;
 
-    private IEnumerator Start()
+    private void Start()
     {
-        audioSource = FindObjectOfType<MusicPlayer>().gameObject.GetComponent<AudioSource>();
-        defaultClip = audioSource.clip;
-
+        InitAudioSource();
+        StartCoroutine(InitWaveText());
         StartCoroutine(SpawnAllLevels());
+    }
+
+    private void InitAudioSource()
+    {
+        MusicPlayer musicPlayer = FindObjectOfType<MusicPlayer>();
+        if (musicPlayer == null) return;
+
+        audioSource = musicPlayer.GetComponent<AudioSource>();
+        defaultClip = audioSource.clip;
+    }
+
+    private IEnumerator InitWaveText()
+    {
         initialWaveText = waveText.text.Replace("$2", levelConfigs.Count.ToString());
-        waveText.text =
-            initialWaveText.Replace("$1", (startingLevel + 1).ToString());
+        waveText.text = initialWaveText.Replace("$1", (startingLevel + 1).ToString());
 
         waveText.enabled = true;
         yield return new WaitForSeconds(waveIndicatorDuration);
@@ -36,46 +48,45 @@ public class EnemySpawner : MonoBehaviour
         for (int levelIndex = startingLevel; levelIndex < levelConfigs.Count; levelIndex++)
         {
             LevelConfig currentLevel = levelConfigs[levelIndex];
-            if (currentLevel.GetLevelMusic() != null)
-            {
-                if (audioSource.clip != currentLevel.GetLevelMusic())
-                {
-                    audioSource.clip = currentLevel.GetLevelMusic();
-                    audioSource.Play();
-                }
-            }
-            else
-            {
-                if (audioSource.clip != defaultClip)
-                {
-                    audioSource.clip = defaultClip;
-                    audioSource.Play();
-                }
-            }
-
-            for (int i = currentLevel.GetStartingWave(); i < currentLevel.GetWaveConfigs().Count; i++)
-            {
-                WaveConfig currentWave = currentLevel.GetWaveConfigs()[i];
-                var enemyPathing = Instantiate(enemyPathingObject).GetComponent<EnemyPathing>();
-                enemyPathing.SetWaveConfig(currentWave);
-                StartCoroutine(SpawnAllEnemiesInWave(currentWave, enemyPathing));
-                yield return new WaitForSeconds(currentLevel.GetTimeBetweenWaveSpawns());
-            }
-
+            StartCoroutine(SpawnLevel(currentLevel));
             // Check if enemies are alive at this point
             yield return new WaitWhile(() => FindObjectsOfType<Enemy>().Length > 0);
-
-            //Enemies are dead. Do your show and lets spawn the new level.
-            if (levelIndex + 2 <= levelConfigs.Count)
-            {
-                StartCoroutine(WaveOverShow(levelIndex + 1, levelIndex + 2));
-                yield return new WaitForSeconds(timeBeforeWaves);
-            }
-            else
-            {
-                // Game over.
-            }
+            StartCoroutine(NextLevel(levelIndex));
         }
+    }
+
+    private IEnumerator SpawnLevel(LevelConfig currentLevel)
+    {
+        ChangeMusic(currentLevel);
+        for (int i = currentLevel.GetStartingWave(); i < currentLevel.GetWaveConfigs().Count; i++)
+        {
+            SpawnWave(currentLevel, i);
+            yield return new WaitForSeconds(currentLevel.GetTimeBetweenWaveSpawns());
+        }
+    }
+
+    private void ChangeMusic(LevelConfig currentLevel)
+    {
+        if (audioSource == null) return;
+        AudioClip currentClip = audioSource.clip;
+        AudioClip nextClip = defaultClip;
+
+        if (currentLevel.GetLevelMusic() != null)
+        {
+            nextClip = currentLevel.GetLevelMusic();
+        }
+
+        if (currentClip == nextClip) return;
+        audioSource.clip = nextClip;
+        audioSource.Play();
+    }
+
+    private void SpawnWave(LevelConfig currentLevel, int i)
+    {
+        WaveConfig currentWave = currentLevel.GetWaveConfigs()[i];
+        var enemyPathing = Instantiate(enemyPathingObject).GetComponent<EnemyPathing>();
+        enemyPathing.SetWaveConfig(currentWave);
+        StartCoroutine(SpawnAllEnemiesInWave(currentWave, enemyPathing));
     }
 
     private IEnumerator SpawnAllEnemiesInWave(WaveConfig waveConfig, EnemyPathing enemyPathing)
@@ -84,21 +95,46 @@ public class EnemySpawner : MonoBehaviour
         {
             for (int i = 0; i < waveConfig.GetNumberOfEnemies(); i++)
             {
-                var enemy = Instantiate(
-                    waveConfig.GetEnemyPrefab(),
-                    waveConfig.GetWaypoints()[0].position,
-                    Quaternion.identity);
-                enemyPathing.AddEnemy(enemy);
+                SpawnEnemy(waveConfig, enemyPathing);
                 yield return new WaitForSeconds(waveConfig.GetTimeBetweenSpawns());
             }
         } while (waveConfig.GetContinuousSpawning);
     }
 
-    private IEnumerator WaveOverShow(int oldLevel, int newLevel)
+    private static void SpawnEnemy(WaveConfig waveConfig, EnemyPathing enemyPathing)
+    {
+        var enemy = Instantiate(
+            waveConfig.GetEnemyPrefab(),
+            waveConfig.GetWaypoints()[0].position,
+            Quaternion.identity);
+        enemyPathing.AddEnemy(enemy);
+    }
+
+    private IEnumerator NextLevel(int levelIndex)
+    {
+        //Enemies are dead. Do your show and lets spawn the new level.
+        if (levelIndex + 2 <= levelConfigs.Count)
+        {
+            StartCoroutine(WaveOver(levelIndex + 1, levelIndex + 2));
+            yield return new WaitForSeconds(timeBeforeWaves);
+        }
+        else
+        {
+            GameOver();
+        }
+    }
+
+    private IEnumerator WaveOver(int oldLevel, int newLevel)
     {
         waveText.text = initialWaveText.Replace("$1", newLevel.ToString());
         waveText.enabled = true;
         yield return new WaitForSeconds(waveIndicatorDuration);
         waveText.enabled = false;
+    }
+
+    private void GameOver()
+    {
+        Level level = FindObjectOfType<Level>();
+        StartCoroutine(level.WaitAndLoadGameOver(gameOverDelay));
     }
 }
