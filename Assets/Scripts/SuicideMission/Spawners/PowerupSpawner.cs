@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SuicideMission.Interface;
+using SuicideMission.Objects;
 using UnityEngine;
 
 namespace SuicideMission.Spawners
@@ -14,29 +15,14 @@ namespace SuicideMission.Spawners
         [SerializeField] private float padding = 0.75f;
 
         private List<Items<Powerup>> powerupList;
-
-        private float xMin;
-        private float xMax;
-        private float yMin;
-        private float yMax;
+        private Level level;
 
         private IEnumerator Start()
         {
+            level = FindObjectOfType<Level>();
             InitializeChanceTable();
-            SetupBoundaries();
             yield return new WaitForSeconds(Random.Range(minSpawningDelay, maxSpawningDelay));
             StartCoroutine(Spawn());
-        }
-
-        private void SetupBoundaries()
-        {
-            var gameCamera = Camera.main;
-
-            xMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x + padding;
-            xMax = gameCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x - padding;
-
-            yMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).y + padding;
-            yMax = gameCamera.ViewportToWorldPoint(new Vector3(0, 1, 0)).y - padding;
         }
 
         private void InitializeChanceTable()
@@ -65,8 +51,8 @@ namespace SuicideMission.Spawners
         {
             while (true)
             {
-                var x = Random.Range(xMin, xMax);
-                var position = new Vector2(x, yMax);
+                var x = Random.Range(level.MinX + padding, level.MaxX - padding);
+                var position = new Vector2(x, level.MaxY - padding);
                 var powerup = Instantiate(GetNextPowerup(), position, Quaternion.identity);
                 powerup.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -powerup.GetDropSpeed());
                 yield return new WaitForSeconds(Random.Range(minSpawningDelay, maxSpawningDelay));

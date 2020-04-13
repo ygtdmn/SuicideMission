@@ -10,7 +10,8 @@ namespace SuicideMission.Objects
     {
         [Header("Player Specific Specs")]
         [SerializeField] private float firingDelay = 0.1f;
-        [SerializeField] private float padding = 0.75f;
+        [SerializeField] private float paddingX = 0.75f;
+        [SerializeField] private float paddingY = 1.25f;
 
         [SerializeField] private float weaponHeatFactor = 20;
         [SerializeField] private float weaponHeatWaitingTime = 25f;
@@ -29,16 +30,12 @@ namespace SuicideMission.Objects
 
         private float weaponHeat;
 
-        // Movement Boundaries
-        private float xMin;
-        private float xMax;
-        private float yMin;
-        private float yMax;
+        private Level level;
 
         protected override void Start()
         {
             base.Start();
-            SetupMoveBoundaries();
+            level = FindObjectOfType<Level>();
         }
 
         protected override void Update()
@@ -80,8 +77,8 @@ namespace SuicideMission.Objects
         {
             var deltaX = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
             var deltaY = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
-            var newXPos = Mathf.Clamp(transform.position.x + deltaX, xMin, xMax);
-            var newYPos = Mathf.Clamp(transform.position.y + deltaY, yMin, yMax);
+            var newXPos = Mathf.Clamp(transform.position.x + deltaX, level.MinX + paddingX, level.MaxX - paddingX);
+            var newYPos = Mathf.Clamp(transform.position.y + deltaY, level.MinY + paddingY, level.MaxY - paddingY);
             transform.position = new Vector2(newXPos, newYPos);
         }
 
@@ -159,21 +156,10 @@ namespace SuicideMission.Objects
             if (weaponHeat >= weaponHeatFactor) weaponHeat = weaponHeatWaitingTime;
         }
 
-        private void SetupMoveBoundaries()
-        {
-            var gameCamera = Camera.main;
-
-            xMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x + padding;
-            xMax = gameCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x - padding;
-
-            yMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).y + padding;
-            yMax = gameCamera.ViewportToWorldPoint(new Vector3(0, 1, 0)).y - padding;
-        }
-
         protected override void Death()
         {
             base.Death();
-            FindObjectOfType<Level>().LoadGameOver();
+            level.LoadGameOver();
         }
 
         public void GiveSpeedBoost(float boost, float duration)
@@ -209,7 +195,7 @@ namespace SuicideMission.Objects
         {
             trippleLaserBoostRemainingTime += duration;
         }
-        
+
         public float GetFiringDelay()
         {
             return firingDelay;
