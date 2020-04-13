@@ -83,7 +83,7 @@ SpriteRenderer:
   m_Size: {x: 1.12, y: 0.75}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &-102609698610034938
@@ -166,10 +166,7 @@ MonoBehaviour:
   collisionDamage: 1000
   laser: {fileID: 6086165782137368956, guid: 3a587fa6ad0d6d4468cc3432a5146cc1, type: 3}
   projectileSpeed: 20
-  deathSounds:
-  - {fileID: 8300000, guid: c2abc9468ae3c194094984edbf8a632e, type: 3}
-  - {fileID: 8300000, guid: ca14d8f0c37ff0c4eb12a740b1edd749, type: 3}
-  - {fileID: 8300000, guid: 250f14aa53eae0349904a6f77628b49c, type: 3}
+  deathSounds: []
   shootSound: {fileID: 8300000, guid: c929f41c6272a7a43b671ab217e09244, type: 3}
   deathSoundVolume: 1
   shootSoundVolume: 0.35

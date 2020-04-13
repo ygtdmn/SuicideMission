@@ -159,4 +159,5 @@ MonoBehaviour:
   spawnChance: 10
   dropSpeed: 5
   destroyAfterY: -15
+  powerupSound: {fileID: 8300000, guid: 894b3832f1c7b3d4385ab4c67816e54b, type: 3}
   duration: 5

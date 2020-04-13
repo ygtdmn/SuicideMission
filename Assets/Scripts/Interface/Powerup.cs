@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Interface
 {
@@ -8,6 +7,8 @@ namespace Interface
         [SerializeField] protected float spawnChance;
         [SerializeField] protected float dropSpeed = 5f;
         [SerializeField] private float destroyAfterY = -15f;
+        [SerializeField] private AudioClip powerupSound;
+        [SerializeField] private float powerupSoundVolume = 0.75f;
 
         private void Update()
         {
@@ -22,6 +23,7 @@ namespace Interface
             if (other.GetComponent<Player>() != null)
             {
                 HidePowerup();
+                AudioSource.PlayClipAtPoint(powerupSound, Camera.main.transform.position, powerupSoundVolume);
                 Execute(other.gameObject);
             }
         }
