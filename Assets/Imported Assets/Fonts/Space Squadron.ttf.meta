@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: f83925d7568483845a9eda0a086ce575
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Space Squadron
+  fontNames:
+  - Space Squadron
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 0207344cf0417374eb09336001adca52, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

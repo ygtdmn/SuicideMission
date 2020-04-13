@@ -9,6 +9,17 @@ public class Level : MonoBehaviour
     [SerializeField] private float gameOverPitch = .5f;
     [SerializeField] private int gameOverLoadDelay = 2;
 
+
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "Game") return;
+        
+        if (Input.GetButtonDown("Fire1"))
+        {
+            FindObjectOfType<Level>().LoadGameScene();
+        }
+    }
+
     public void LoadStartMenu()
     {
         ResetSession();

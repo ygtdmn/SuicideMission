@@ -277,8 +277,9 @@ MonoBehaviour:
   firingDelay: 0.1
   padding: 0.75
   weaponHeatFactor: 20
-  weaponHeatWaitingTime: 22.5
-  weaponHeatReduceFactor: 4
+  weaponHeatWaitingTime: 25
+  weaponHeatReduceFactor: 6
+  heatIndicator: {fileID: 0}
 --- !u!114 &5942242316935797625
 MonoBehaviour:
   m_ObjectHideFlags: 0

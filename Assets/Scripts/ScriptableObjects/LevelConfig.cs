@@ -8,8 +8,10 @@ public class LevelConfig : ScriptableObject
     [SerializeField] private List<WaveConfig> waveConfigs;
     [SerializeField] private int startingWave;
     [SerializeField] private float timeBetweenWaveSpawns = 1f;
+    [SerializeField] private AudioClip levelMusic;
 
-    public List<WaveConfig> GetWaveConfigs => waveConfigs;
-    public int GetStartingWave => startingWave;
-    public float GetTimeBetweenWaveSpawns => timeBetweenWaveSpawns;
+    public List<WaveConfig> GetWaveConfigs() => waveConfigs;
+    public int GetStartingWave() => startingWave;
+    public float GetTimeBetweenWaveSpawns() => timeBetweenWaveSpawns;
+    public AudioClip GetLevelMusic() => levelMusic;
 }

@@ -13,14 +13,19 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float waveIndicatorDuration = 4f;
 
     private string initialWaveText;
+    private AudioSource audioSource;
+    private AudioClip defaultClip;
 
     private IEnumerator Start()
     {
+        audioSource = FindObjectOfType<MusicPlayer>().gameObject.GetComponent<AudioSource>();
+        defaultClip = audioSource.clip;
+
         StartCoroutine(SpawnAllLevels());
         initialWaveText = waveText.text.Replace("$2", levelConfigs.Count.ToString());
         waveText.text =
             initialWaveText.Replace("$1", (startingLevel + 1).ToString());
-        
+
         waveText.enabled = true;
         yield return new WaitForSeconds(waveIndicatorDuration);
         waveText.enabled = false;
@@ -31,13 +36,30 @@ public class EnemySpawner : MonoBehaviour
         for (int levelIndex = startingLevel; levelIndex < levelConfigs.Count; levelIndex++)
         {
             LevelConfig currentLevel = levelConfigs[levelIndex];
-            for (int i = currentLevel.GetStartingWave; i < currentLevel.GetWaveConfigs.Count; i++)
+            if (currentLevel.GetLevelMusic() != null)
             {
-                WaveConfig currentWave = currentLevel.GetWaveConfigs[i];
+                if (audioSource.clip != currentLevel.GetLevelMusic())
+                {
+                    audioSource.clip = currentLevel.GetLevelMusic();
+                    audioSource.Play();
+                }
+            }
+            else
+            {
+                if (audioSource.clip != defaultClip)
+                {
+                    audioSource.clip = defaultClip;
+                    audioSource.Play();
+                }
+            }
+
+            for (int i = currentLevel.GetStartingWave(); i < currentLevel.GetWaveConfigs().Count; i++)
+            {
+                WaveConfig currentWave = currentLevel.GetWaveConfigs()[i];
                 var enemyPathing = Instantiate(enemyPathingObject).GetComponent<EnemyPathing>();
                 enemyPathing.SetWaveConfig(currentWave);
                 StartCoroutine(SpawnAllEnemiesInWave(currentWave, enemyPathing));
-                yield return new WaitForSeconds(currentLevel.GetTimeBetweenWaveSpawns);
+                yield return new WaitForSeconds(currentLevel.GetTimeBetweenWaveSpawns());
             }
 
             // Check if enemies are alive at this point

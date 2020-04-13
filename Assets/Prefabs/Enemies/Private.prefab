@@ -166,13 +166,13 @@ MonoBehaviour:
   laser: {fileID: 6086165782137368956, guid: adfc1c8c0d71b3b4db3723528a07896f, type: 3}
   projectileSpeed: 10
   deathSounds:
-  - {fileID: 8300000, guid: 3281ade5d1c809743a5d8d59d68e895e, type: 3}
-  - {fileID: 8300000, guid: b66b0710b86055d4899aa4412febc6c6, type: 3}
-  - {fileID: 8300000, guid: b35f546633b60e14b86de96903b70f60, type: 3}
-  - {fileID: 8300000, guid: 56617798b142327428afe29a810eeef9, type: 3}
+  - {fileID: 8300000, guid: ba7132847c546ed48b410fa818b667e8, type: 3}
+  - {fileID: 8300000, guid: 9ae35d818af4f264fa7e194acee17f1b, type: 3}
+  - {fileID: 8300000, guid: 00f9128cee60ab54697c2085b860726f, type: 3}
+  - {fileID: 8300000, guid: 337200c2054f6e54980c748342a2bace, type: 3}
   shootSound: {fileID: 8300000, guid: c929f41c6272a7a43b671ab217e09244, type: 3}
-  deathSoundVolume: 0.25
-  shootSoundVolume: 0.2
+  deathSoundVolume: 0.4
+  shootSoundVolume: 0.4
   deathExplosion: {fileID: 1612221337289516, guid: 85ab2ba31682fca4e9c1e40ea154ee43,
     type: 3}
   deathAnimation: {fileID: 3431275181473238272, guid: f985983b8fdfa41409073768a1a36e09,
