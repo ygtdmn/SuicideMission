@@ -21,8 +21,8 @@ namespace SuicideMission.Spawners
             foreach (var planet in planets)
             {
                 currentPlanet = Instantiate(planetPrefab);
-                planetPrefab.GetComponent<SpriteRenderer>().sprite = planet;
-                var planetTransform = planetPrefab.transform;
+                currentPlanet.GetComponent<SpriteRenderer>().sprite = planet;
+                var planetTransform = currentPlanet.transform;
                 planetTransform.position = new Vector3(Random.Range(level.MinX + paddingX, level.MaxX - paddingX),
                     level.MaxY + paddingY,
                     planetTransform.position.z);
