@@ -384,6 +384,26 @@ PrefabInstance:
       propertyPath: heatIndicator
       value: 
       objectReference: {fileID: 421542720}
+    - target: {fileID: 2473818134039491391, guid: 5332fceee2aef374f9b8c7018cb21ec5,
+        type: 3}
+      propertyPath: weaponHeatWaitingTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473818134039491391, guid: 5332fceee2aef374f9b8c7018cb21ec5,
+        type: 3}
+      propertyPath: weaponHeatFactor
+      value: 99999
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473818134039491391, guid: 5332fceee2aef374f9b8c7018cb21ec5,
+        type: 3}
+      propertyPath: weaponHeatReduceFactor
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473818134039491391, guid: 5332fceee2aef374f9b8c7018cb21ec5,
+        type: 3}
+      propertyPath: health
+      value: 10000000
+      objectReference: {fileID: 0}
     - target: {fileID: 5942242316935797625, guid: 5332fceee2aef374f9b8c7018cb21ec5,
         type: 3}
       propertyPath: hitBackgroundObject
@@ -1140,7 +1160,7 @@ PrefabInstance:
     - target: {fileID: 8211898455491876901, guid: 8528346ac9829e24bb9542ff0ca472dd,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -14.000244
+      value: -14
       objectReference: {fileID: 0}
     - target: {fileID: 8211898456801170127, guid: 8528346ac9829e24bb9542ff0ca472dd,
         type: 3}
@@ -1220,6 +1240,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HeatIndicatorBackground
+      objectReference: {fileID: 0}
+    - target: {fileID: 8480852292173286153, guid: 557d169a23a306549a538606b938de25,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 557d169a23a306549a538606b938de25, type: 3}

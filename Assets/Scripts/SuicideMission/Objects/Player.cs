@@ -12,7 +12,9 @@ namespace SuicideMission.Objects
         [SerializeField] private float firingDelay = 0.1f;
         [SerializeField] private float paddingX = 0.75f;
         [SerializeField] private float paddingY = 1.25f;
+        [SerializeField] protected float touchMoveSpeed = 2f;
 
+        [Header("Weapon Heat Settings")]
         [SerializeField] private float weaponHeatFactor = 20;
         [SerializeField] private float weaponHeatWaitingTime = 25f;
         [SerializeField] private float weaponHeatReduceFactor = 6;
@@ -27,6 +29,7 @@ namespace SuicideMission.Objects
         private float trippleLaserBoostRemainingTime = 0f;
 
         private Coroutine firingCoroutine;
+        private bool firingCoroutineRunning;
 
         private float weaponHeat;
 
@@ -41,10 +44,7 @@ namespace SuicideMission.Objects
         protected override void Update()
         {
             Move();
-            Fire();
             UpdateBoostTimers();
-
-            heatIndicator.transform.localScale = new Vector3(1, Mathf.Clamp(weaponHeat / weaponHeatFactor, 0, 1), 1);
         }
 
         private void UpdateBoostTimers()
@@ -77,26 +77,80 @@ namespace SuicideMission.Objects
         {
             var deltaX = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
             var deltaY = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
+
+            bool teleport = false; 
+            
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
+                Vector2 deltaPosition = touch.deltaPosition;
+                Vector2 position = touch.position;
+                
+                deltaX = deltaPosition.x * Time.deltaTime * touchMoveSpeed;
+                deltaY = deltaPosition.y * Time.deltaTime * touchMoveSpeed;
+
+                if (deltaX == 0 && deltaY == 0)
+                {
+                    deltaX = Camera.main.ScreenToWorldPoint(position).x;
+                    deltaY = Camera.main.ScreenToWorldPoint(position).y;
+                    teleport = true;
+                }
+            }
+
             var newXPos = Mathf.Clamp(transform.position.x + deltaX, level.MinX + paddingX, level.MaxX - paddingX);
             var newYPos = Mathf.Clamp(transform.position.y + deltaY, level.MinY + paddingY, level.MaxY - paddingY);
+            
+            if (teleport)
+            {
+                newXPos = Mathf.Clamp(deltaX, level.MinX + paddingX, level.MaxX - paddingX);
+                newYPos = Mathf.Clamp(deltaY, level.MinY + paddingY, level.MaxY - paddingY);
+            }
+
+            Fire(deltaX, deltaY);
+
             transform.position = new Vector2(newXPos, newYPos);
         }
 
         protected override void Fire()
         {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                firingCoroutine = StartCoroutine(FireContinuously());
-                return;
-            }
+            Fire(0, 0);
+        }
 
-            if (Input.GetButtonUp("Fire1"))
+        private void Fire(float deltaX, float deltaY)
+        {
+            if (deltaX != 0 || deltaY != 0)
             {
-                StopCoroutine(firingCoroutine);
-                return;
+                StartFiring();
+            }
+            else if (Input.GetButton("Fire1"))
+            {
+                StartFiring();
+            }
+            else
+            {
+                StopFiring();
             }
 
             if (weaponHeat >= 0) weaponHeat -= Time.deltaTime * weaponHeatReduceFactor;
+            heatIndicator.transform.localScale = new Vector3(1, Mathf.Clamp(weaponHeat / weaponHeatFactor, 0, 1), 1);
+        }
+
+        private void StartFiring()
+        {
+            if (!firingCoroutineRunning)
+            {
+                firingCoroutineRunning = true;
+                firingCoroutine = StartCoroutine(FireContinuously());
+            }
+        }
+
+        private void StopFiring()
+        {
+            if (firingCoroutineRunning)
+            {
+                StopCoroutine(firingCoroutine);
+                firingCoroutineRunning = false;
+            }
         }
 
         private IEnumerator FireContinuously()

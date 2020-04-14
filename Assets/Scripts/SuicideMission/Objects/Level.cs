@@ -47,14 +47,14 @@ namespace SuicideMission.Objects
         {
             ResetSession();
             SceneManager.LoadScene("Start Menu");
-            FindObjectOfType<MusicPlayer>().setPitch(startMenuPitch);
+            SetPitch(startMenuPitch);
         }
 
         public void LoadGameScene()
         {
             ResetSession();
             SceneManager.LoadScene("Game");
-            FindObjectOfType<MusicPlayer>().setPitch(gamePitch);
+            SetPitch(gamePitch);
         }
 
         public void LoadGameOver()
@@ -66,14 +66,23 @@ namespace SuicideMission.Objects
         {
             yield return new WaitForSeconds(gameOverLoadDelay);
             SceneManager.LoadScene("Game Over");
-            FindObjectOfType<MusicPlayer>().setPitch(gameOverPitch);
+            SetPitch(gameOverPitch);
         }
 
         public IEnumerator WaitAndLoadGameOver(float delay)
         {
             yield return new WaitForSeconds(delay);
             SceneManager.LoadScene("Game Over");
-            FindObjectOfType<MusicPlayer>().setPitch(gameOverPitch);
+            SetPitch(gameOverPitch);
+        }
+
+        private void SetPitch(float pitch)
+        {
+            var musicPlayer = FindObjectOfType<MusicPlayer>();
+            if (musicPlayer != null)
+            {
+                musicPlayer.setPitch(pitch);
+            }
         }
 
         public void QuitGame()
