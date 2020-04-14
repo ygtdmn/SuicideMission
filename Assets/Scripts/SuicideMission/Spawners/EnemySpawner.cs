@@ -56,7 +56,8 @@ namespace SuicideMission.Spawners
                 StartCoroutine(SpawnLevel(currentLevel));
                 // Check if enemies are alive at this point
                 yield return new WaitWhile(() => FindObjectsOfType<Enemy>().Length > 0);
-                StartCoroutine(NextLevel(levelIndex));
+                NextLevel(levelIndex);
+                yield return new WaitForSeconds(timeBeforeWaves);
             }
         }
 
@@ -112,13 +113,12 @@ namespace SuicideMission.Spawners
             enemyPathing.AddEnemy(enemy);
         }
 
-        private IEnumerator NextLevel(int levelIndex)
+        private void NextLevel(int levelIndex)
         {
             //Enemies are dead. Do your show and lets spawn the new level.
             if (levelIndex + 2 <= levelConfigs.Count)
             {
                 StartCoroutine(WaveOver(levelIndex + 1, levelIndex + 2));
-                yield return new WaitForSeconds(timeBeforeWaves);
             }
             else
             {
