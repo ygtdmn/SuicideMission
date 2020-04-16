@@ -10,6 +10,7 @@ namespace SuicideMission.ScriptableObjects
         [SerializeField] private int startingWave;
         [SerializeField] private float timeBetweenWaveSpawns = 1f;
         [SerializeField] private AudioClip levelMusic;
+        [SerializeField] private bool isFinalLevel = false;
 
         public List<WaveConfig> GetWaveConfigs()
         {
@@ -30,5 +31,7 @@ namespace SuicideMission.ScriptableObjects
         {
             return levelMusic;
         }
+
+        public bool IsFinalLevel() => isFinalLevel;
     }
 }

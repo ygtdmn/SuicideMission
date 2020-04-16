@@ -38,22 +38,51 @@ namespace SuicideMission.Objects
 
         private void Update()
         {
-            if (SceneManager.GetActiveScene().name == "Game") return;
-
-            if (Input.GetButtonDown("Fire1")) FindObjectOfType<Level>().LoadGameScene();
+            if (SceneManager.GetActiveScene().name == "1. Startup Scene")
+            {
+                if (Input.GetButtonDown("Fire1")) LoadLevelChooseScene();
+            }
+            
+            if (SceneManager.GetActiveScene().name == "2. Level Choose Scene")
+            {
+                if (Input.GetButtonDown("Fire1")) LoadFirstLevel();
+            }
+            
+            if (SceneManager.GetActiveScene().name == "4. Lose Scene")
+            {
+                if (Input.GetButtonDown("Fire1")) LoadLevelChooseScene();
+            }
         }
 
-        public void LoadStartMenu()
+        public void LoadLevelOverScene()
+        {
+            StartCoroutine(WaitAndLoadLevelOver());
+        }
+        
+        private IEnumerator WaitAndLoadLevelOver()
+        {
+            yield return new WaitForSeconds(gameOverLoadDelay);
+            SceneManager.LoadScene("3. Level Over");
+        }
+
+        public void LoadStartupScene()
         {
             ResetSession();
-            SceneManager.LoadScene("Start Menu");
+            SceneManager.LoadScene("1. Startup Scene");
+            SetPitch(startMenuPitch);
+        }
+        
+        public void LoadLevelChooseScene()
+        {
+            ResetSession();
+            SceneManager.LoadScene("2. Level Choose Scene");
             SetPitch(startMenuPitch);
         }
 
-        public void LoadGameScene()
+        public void LoadFirstLevel()
         {
             ResetSession();
-            SceneManager.LoadScene("Game");
+            SceneManager.LoadScene("Level 1");
             SetPitch(gamePitch);
         }
 
@@ -65,14 +94,14 @@ namespace SuicideMission.Objects
         private IEnumerator WaitAndLoadGameOver()
         {
             yield return new WaitForSeconds(gameOverLoadDelay);
-            SceneManager.LoadScene("Game Over");
+            SceneManager.LoadScene("4. Lose Scene");
             SetPitch(gameOverPitch);
         }
 
         public IEnumerator WaitAndLoadGameOver(float delay)
         {
             yield return new WaitForSeconds(delay);
-            SceneManager.LoadScene("Game Over");
+            SceneManager.LoadScene("4. Lose Scene");
             SetPitch(gameOverPitch);
         }
 

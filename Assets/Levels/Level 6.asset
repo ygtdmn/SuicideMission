@@ -17,3 +17,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cff1c24a349baf94db095b73346e0d55, type: 2}
   startingWave: 0
   timeBetweenWaveSpawns: 0
+  levelMusic: {fileID: 0}
+  isFinalLevel: 1

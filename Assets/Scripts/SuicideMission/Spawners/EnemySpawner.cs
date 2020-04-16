@@ -6,6 +6,8 @@ using SuicideMission.ScriptableObjects;
 using TMPro;
 using UnityEngine;
 
+// ReSharper disable Unity.InefficientPropertyAccess
+
 namespace SuicideMission.Spawners
 {
     public class EnemySpawner : MonoBehaviour
@@ -21,6 +23,7 @@ namespace SuicideMission.Spawners
         private string initialWaveText;
         private AudioSource audioSource;
         private AudioClip defaultClip;
+        private bool spawning;
 
         private void Start()
         {
@@ -54,21 +57,33 @@ namespace SuicideMission.Spawners
             {
                 var currentLevel = levelConfigs[levelIndex];
                 StartCoroutine(SpawnLevel(currentLevel));
+
                 // Check if enemies are alive at this point
-                yield return new WaitWhile(() => FindObjectsOfType<Enemy>().Length > 0);
-                NextLevel(levelIndex);
-                yield return new WaitForSeconds(timeBeforeWaves);
+                yield return new WaitWhile(() => FindObjectsOfType<Enemy>().Length > 0 || spawning);
+                if (currentLevel.IsFinalLevel())
+                {
+                    var level = FindObjectOfType<Level>();
+                    level.LoadLevelOverScene();
+                }
+                else
+                {
+                    NextLevel(levelIndex);
+                    yield return new WaitForSeconds(timeBeforeWaves);
+                }
             }
         }
 
         private IEnumerator SpawnLevel(LevelConfig currentLevel)
         {
             ChangeMusic(currentLevel);
+            spawning = true;
             for (var i = currentLevel.GetStartingWave(); i < currentLevel.GetWaveConfigs().Count; i++)
             {
                 SpawnWave(currentLevel, i);
                 yield return new WaitForSeconds(currentLevel.GetTimeBetweenWaveSpawns());
             }
+
+            spawning = false;
         }
 
         private void ChangeMusic(LevelConfig currentLevel)
@@ -116,9 +131,11 @@ namespace SuicideMission.Spawners
         private void NextLevel(int levelIndex)
         {
             //Enemies are dead. Do your show and lets spawn the new level.
-            if (levelIndex + 2 <= levelConfigs.Count)
+            int newLevel = levelIndex + 2; // levelIndex + 1 is current level. levelIndex + 2 will give the new level.
+            
+            if (newLevel <= levelConfigs.Count)
             {
-                StartCoroutine(WaveOver(levelIndex + 1, levelIndex + 2));
+                StartCoroutine(WaveOver(newLevel));
             }
             else
             {
@@ -126,7 +143,7 @@ namespace SuicideMission.Spawners
             }
         }
 
-        private IEnumerator WaveOver(int oldLevel, int newLevel)
+        private IEnumerator WaveOver(int newLevel)
         {
             waveText.text = initialWaveText.Replace("$1", newLevel.ToString());
             waveText.enabled = true;
