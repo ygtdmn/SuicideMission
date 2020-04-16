@@ -1,7 +1,6 @@
-﻿using SuicideMission.Objects;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace SuicideMission.Interface
+namespace SuicideMission.Objects
 {
     public abstract class Powerup : MonoBehaviour
     {
@@ -18,12 +17,11 @@ namespace SuicideMission.Interface
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.GetComponent<Player>() != null)
-            {
-                HidePowerup();
-                AudioSource.PlayClipAtPoint(powerupSound, Camera.main.transform.position, powerupSoundVolume);
-                Execute(other.gameObject);
-            }
+            if (other.GetComponent<Player>() == null) return;
+            
+            HidePowerup();
+            AudioSource.PlayClipAtPoint(powerupSound, Camera.main.transform.position, powerupSoundVolume);
+            Execute(other.gameObject);
         }
 
         private void HidePowerup()

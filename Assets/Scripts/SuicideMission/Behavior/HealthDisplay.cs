@@ -1,23 +1,26 @@
 ﻿using SuicideMission.Objects;
-using TMPro;
 using UnityEngine;
 
 namespace SuicideMission.Behavior
 {
     public class HealthDisplay : MonoBehaviour
     {
-        private TextMeshProUGUI healthText;
+        private SpriteRenderer lifeSpriteRenderer;
         private Player player;
 
         private void Start()
         {
             player = FindObjectOfType<Player>();
-            healthText = GetComponent<TextMeshProUGUI>();
+            lifeSpriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         private void Update()
         {
-            healthText.text = player.GetHealth().ToString();
+            float health = player.GetHealth();
+            float totalHealth = player.GetTotalHealth();
+
+            lifeSpriteRenderer.transform.localScale =
+                new Vector3(1, Mathf.Clamp(health / totalHealth, 0, 1), 1);
         }
     }
 }

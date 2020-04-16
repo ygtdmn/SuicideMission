@@ -1,5 +1,4 @@
 ﻿using SuicideMission.Enums;
-using SuicideMission.Interface;
 using UnityEngine;
 
 namespace SuicideMission.Objects

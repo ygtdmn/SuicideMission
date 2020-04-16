@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using SuicideMission.Behavior;
 using SuicideMission.Enums;
-using SuicideMission.Interface;
 using UnityEngine;
 
 namespace SuicideMission.Objects
@@ -13,13 +12,21 @@ namespace SuicideMission.Objects
         [SerializeField] private float paddingX = 0.75f;
         [SerializeField] private float paddingY = 1.25f;
         [SerializeField] protected float touchMoveSpeed = 2f;
-
+        [SerializeField] private int initialLife = 2;
+        [SerializeField] private int coinNeededForExtraLife = 6;
+        
         [Header("Weapon Heat Settings")]
         [SerializeField] private float weaponHeatFactor = 20;
         [SerializeField] private float weaponHeatWaitingTime = 25f;
         [SerializeField] private float weaponHeatReduceFactor = 6;
         [SerializeField] private GameObject heatIndicator;
 
+        private int coins;
+
+        private int life;
+        private int initialHealth;
+        private Vector3 initialPosition;
+        
         private float shootingSpeedBoost = 1f;
         private float shootingSpeedBoostRemainingTime = 0f;
 
@@ -35,9 +42,14 @@ namespace SuicideMission.Objects
 
         private Level level;
 
+        private bool invincible;
+
         protected override void Start()
         {
             base.Start();
+            life = initialLife;
+            initialHealth = health;
+            initialPosition = transform.position;
             level = FindObjectOfType<Level>();
         }
 
@@ -78,14 +90,14 @@ namespace SuicideMission.Objects
             var deltaX = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
             var deltaY = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
 
-            bool teleport = false; 
-            
+            bool teleport = false;
+
             if (Input.touchCount > 0)
             {
                 Touch touch = Input.GetTouch(0);
                 Vector2 deltaPosition = touch.deltaPosition;
                 Vector2 position = touch.position;
-                
+
                 deltaX = deltaPosition.x * Time.deltaTime * touchMoveSpeed;
                 deltaY = deltaPosition.y * Time.deltaTime * touchMoveSpeed;
 
@@ -99,7 +111,7 @@ namespace SuicideMission.Objects
 
             var newXPos = Mathf.Clamp(transform.position.x + deltaX, level.MinX + paddingX, level.MaxX - paddingX);
             var newYPos = Mathf.Clamp(transform.position.y + deltaY, level.MinY + paddingY, level.MaxY - paddingY);
-            
+
             if (teleport)
             {
                 newXPos = Mathf.Clamp(deltaX, level.MinX + paddingX, level.MaxX - paddingX);
@@ -210,6 +222,36 @@ namespace SuicideMission.Objects
             if (weaponHeat >= weaponHeatFactor) weaponHeat = weaponHeatWaitingTime;
         }
 
+        protected override void TryDeath()
+        {
+            if (--life <= 0)
+            {
+                Death();
+            }
+            else
+            {
+                StartCoroutine(LoseLife());
+                GetComponent<HitIndicator>().IndicateHit();
+            }
+        }
+
+        protected override void ProcessHit(DamageDealer damageDealer)
+        {
+            if (invincible) return;
+            base.ProcessHit(damageDealer);
+        }
+
+        private IEnumerator LoseLife()
+        {
+            SetInvincible(true);
+            transform.position = initialPosition;
+            health = initialHealth;
+            GetComponent<Blink>().SetActive(true);
+            yield return new WaitForSeconds(2);
+            GetComponent<Blink>().SetActive(false);
+            SetInvincible(false);
+        }
+
         protected override void Death()
         {
             base.Death();
@@ -258,6 +300,33 @@ namespace SuicideMission.Objects
         public float SetFiringDelay(float firingDelay)
         {
             return this.firingDelay = firingDelay;
+        }
+
+        private void SetInvincible(bool val)
+        {
+            invincible = val;
+        }
+
+        public int GetLifes()
+        {
+            return life;
+        }
+        
+        public int GetTotalHealth()
+        {
+            return initialHealth;
+        }
+
+        public int GetCoins() => coins;
+
+        public void AddCoins(int coin)
+        {
+            coins += coin;
+            if (coins >= coinNeededForExtraLife)
+            {
+                coins = 0;
+                life++;
+            }
         }
     }
 }

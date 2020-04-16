@@ -1,5 +1,4 @@
-﻿using SuicideMission.Interface;
-using SuicideMission.Objects;
+﻿using SuicideMission.Objects;
 using UnityEngine;
 
 namespace SuicideMission.Powerups

@@ -1,5 +1,5 @@
 ﻿using System;
-using SuicideMission.Interface;
+using SuicideMission.Objects;
 using SuicideMission.Utils;
 using UnityEngine;
 using UnityEngine.UI;

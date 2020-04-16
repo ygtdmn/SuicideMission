@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 8020312888195307910}
   - component: {fileID: 2473818134039491391}
   - component: {fileID: 5942242316935797625}
+  - component: {fileID: 5881901781832052896}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -275,7 +276,10 @@ MonoBehaviour:
   destoryAnimationAfterSeconds: 0.5
   cameraPosition: {x: 0, y: 0, z: 0}
   firingDelay: 0.1
-  padding: 0.75
+  paddingX: 0.75
+  paddingY: 1.25
+  touchMoveSpeed: 2
+  initialLife: 2
   weaponHeatFactor: 20
   weaponHeatWaitingTime: 25
   weaponHeatReduceFactor: 6
@@ -332,6 +336,21 @@ MonoBehaviour:
   hitBackgroundObject: {fileID: 0}
   minBackgroundAlpha: 0
   maxBackgroundAlpha: 0.5
+--- !u!114 &5881901781832052896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2473818134039491376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f04d573cced447c9b0be5a02751c4209, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minAlpha: 0.1
+  maxAlpha: 0.9
+  flashTime: 0.1
 --- !u!1001 &6604340221508256554
 PrefabInstance:
   m_ObjectHideFlags: 0

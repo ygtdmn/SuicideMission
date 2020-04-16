@@ -3,7 +3,7 @@ using SuicideMission.Enums;
 using SuicideMission.Utils;
 using UnityEngine;
 
-namespace SuicideMission.Interface
+namespace SuicideMission.Objects
 {
     public abstract class Spaceship : MonoBehaviour
     {
@@ -62,18 +62,23 @@ namespace SuicideMission.Interface
             ProcessHit(damageDealer);
         }
 
-        private void ProcessHit(DamageDealer damageDealer)
+        protected virtual void ProcessHit(DamageDealer damageDealer)
         {
             health = Mathf.Max(0, health - damageDealer.GetDamage());
             damageDealer.Hit();
             if (health <= 0)
             {
-                Death();
+                TryDeath();
             }
             else
             {
                 if (GetComponent<HitIndicator>() != null) GetComponent<HitIndicator>().IndicateHit();
             }
+        }
+
+        protected virtual void TryDeath()
+        {
+            Death();
         }
 
         protected virtual void Death()
