@@ -18,23 +18,10 @@ namespace SuicideMission.Objects
         [SerializeField] private float minY = -10f;
         [SerializeField] private float maxY = 10f;
 
-        public Vector3 BottomLeft { get; private set; }
-        public Vector3 BottomRight { get; private set; }
-        public Vector3 TopLeft { get; private set; }
-        public Vector3 TopRight { get; private set; }
-
         public float MinX => minX;
         public float MaxX => maxX;
         public float MinY => minY;
         public float MaxY => maxY;
-
-        private void Start()
-        {
-            BottomLeft = new Vector3(minX, minY, 0);
-            BottomRight = new Vector3(maxX, minY, 0);
-            TopLeft = new Vector3(minX, maxY, 0);
-            TopRight = new Vector3(maxX, maxY, 0);
-        }
 
         private void Update()
         {

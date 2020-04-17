@@ -5,16 +5,16 @@ using UnityEngine;
 namespace SuicideMission.ScriptableObjects
 {
     [CreateAssetMenu(menuName = "Enemy Wave Config")]
-    public class WaveConfig : ScriptableObject
+    public class EnemyWaveConfig : ScriptableObject
     {
-        [SerializeField] private GameObject enemyPrefab = null;
-        [SerializeField] private GameObject pathPrefab = null;
+        [SerializeField] private GameObject enemyPrefab;
+        [SerializeField] private GameObject pathPrefab;
         [SerializeField] private float timeBetweenSpawns = 0.5f;
         [SerializeField] private float spawnRandomFactor = 0.3f;
         [SerializeField] private int numberOfEnemies = 5;
-        [SerializeField] private bool continuousSpawning = false;
+        [SerializeField] private bool continuousSpawning;
         [SerializeField] private bool pathLooping = true;
-        [SerializeField] private bool destroyAfterPathEnded = false;
+        [SerializeField] private bool destroyAfterPathEnded;
 
         public GameObject GetEnemyPrefab()
         {

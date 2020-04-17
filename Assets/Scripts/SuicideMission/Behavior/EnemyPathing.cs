@@ -7,7 +7,7 @@ namespace SuicideMission.Behavior
 {
     public class EnemyPathing : MonoBehaviour
     {
-        private WaveConfig waveConfig;
+        private EnemyWaveConfig enemyWaveConfig;
         private List<Transform> waypoints;
         private readonly Dictionary<GameObject, int>
             enemies = new Dictionary<GameObject, int>(); // Enemy, Waypoint Index
@@ -27,10 +27,10 @@ namespace SuicideMission.Behavior
             var enemy = enemyObject.GetComponent<Enemy>();
             var waypointIndex = enemies[enemyObject];
 
-            if (waveConfig.GetDestroyAfterPathEnded() || !waveConfig.GetPathLooping())
+            if (enemyWaveConfig.GetDestroyAfterPathEnded() || !enemyWaveConfig.GetPathLooping())
                 if (waypointIndex >= waypoints.Count || fullWaypoints.Contains(waypointIndex))
                 {
-                    if (waveConfig.GetDestroyAfterPathEnded())
+                    if (enemyWaveConfig.GetDestroyAfterPathEnded())
                     {
                         Destroy(enemyObject);
                         return;
@@ -54,10 +54,10 @@ namespace SuicideMission.Behavior
             }
         }
 
-        public void SetWaveConfig(WaveConfig waveConfig)
+        public void SetEnemyWaveConfig(EnemyWaveConfig enemyWaveConfig)
         {
-            this.waveConfig = waveConfig;
-            waypoints = waveConfig.GetWaypoints();
+            this.enemyWaveConfig = enemyWaveConfig;
+            waypoints = enemyWaveConfig.GetWaypoints();
         }
 
         public void AddEnemy(GameObject enemy)

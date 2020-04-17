@@ -5,18 +5,20 @@ using SuicideMission.Objects;
 using SuicideMission.ScriptableObjects;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 // ReSharper disable Unity.InefficientPropertyAccess
-
 namespace SuicideMission.Spawners
 {
     public class EnemySpawner : MonoBehaviour
     {
-        [SerializeField] private List<LevelConfig> levelConfigs;
-        [SerializeField] private int startingLevel;
+        [SerializeField] private List<LevelWaveConfig> levelWaveConfigs;
+        [FormerlySerializedAs("startingLevel")] [SerializeField]
+        private int startingLevelWave;
         [SerializeField] private GameObject enemyPathingObject;
         [SerializeField] private TextMeshProUGUI waveText;
-        [SerializeField] private float timeBeforeWaves = 5f;
+        [FormerlySerializedAs("timeBeforeWaves")] [SerializeField]
+        private float timeBeforeLevelWaves = 5f;
         [SerializeField] private float waveIndicatorDuration = 4f;
         [SerializeField] private float gameOverDelay = 4f;
 
@@ -29,7 +31,7 @@ namespace SuicideMission.Spawners
         {
             InitAudioSource();
             StartCoroutine(InitWaveText());
-            StartCoroutine(SpawnAllLevels());
+            StartCoroutine(SpawnAllLevelWaves());
         }
 
         private void InitAudioSource()
@@ -43,107 +45,108 @@ namespace SuicideMission.Spawners
 
         private IEnumerator InitWaveText()
         {
-            initialWaveText = waveText.text.Replace("$2", levelConfigs.Count.ToString());
-            waveText.text = initialWaveText.Replace("$1", (startingLevel + 1).ToString());
+            initialWaveText = waveText.text.Replace("$2", levelWaveConfigs.Count.ToString());
+            waveText.text = initialWaveText.Replace("$1", (startingLevelWave + 1).ToString());
 
             waveText.enabled = true;
             yield return new WaitForSeconds(waveIndicatorDuration);
             waveText.enabled = false;
         }
 
-        private IEnumerator SpawnAllLevels()
+        private IEnumerator SpawnAllLevelWaves()
         {
-            for (var levelIndex = startingLevel; levelIndex < levelConfigs.Count; levelIndex++)
+            for (var levelWaveIndex = startingLevelWave; levelWaveIndex < levelWaveConfigs.Count; levelWaveIndex++)
             {
-                var currentLevel = levelConfigs[levelIndex];
-                StartCoroutine(SpawnLevel(currentLevel));
+                var currentLevelWave = levelWaveConfigs[levelWaveIndex];
+                StartCoroutine(SpawnLevelWave(currentLevelWave));
 
                 // Check if enemies are alive at this point
                 yield return new WaitWhile(() => FindObjectsOfType<Enemy>().Length > 0 || spawning);
-                if (currentLevel.IsFinalLevel())
+
+                if (currentLevelWave.IsFinalLevel())
                 {
-                    var level = FindObjectOfType<Level>();
-                    level.LoadLevelOverScene();
+                    LevelOver();
                 }
                 else
                 {
-                    NextLevel(levelIndex);
-                    yield return new WaitForSeconds(timeBeforeWaves);
+                    NextLevelWave(levelWaveIndex);
+                    yield return new WaitForSeconds(timeBeforeLevelWaves);
                 }
             }
         }
 
-        private IEnumerator SpawnLevel(LevelConfig currentLevel)
+        private IEnumerator SpawnLevelWave(LevelWaveConfig currentLevelWave)
         {
-            ChangeMusic(currentLevel);
+            ChangeMusic(currentLevelWave);
             spawning = true;
-            for (var i = currentLevel.GetStartingWave(); i < currentLevel.GetWaveConfigs().Count; i++)
+            for (var i = currentLevelWave.GetStartingEnemyWave(); i < currentLevelWave.GetEnemyWaveConfigs().Count; i++)
             {
-                SpawnWave(currentLevel, i);
-                yield return new WaitForSeconds(currentLevel.GetTimeBetweenWaveSpawns());
+                SpawnEnemyWave(currentLevelWave, i);
+                yield return new WaitForSeconds(currentLevelWave.GetTimeBetweenEnemyWaveSpawns());
             }
 
             spawning = false;
         }
 
-        private void ChangeMusic(LevelConfig currentLevel)
+        private void ChangeMusic(LevelWaveConfig currentLevelWave)
         {
             if (audioSource == null) return;
             var currentClip = audioSource.clip;
             var nextClip = defaultClip;
 
-            if (currentLevel.GetLevelMusic() != null) nextClip = currentLevel.GetLevelMusic();
+            if (currentLevelWave.GetLevelWaveMusic() != null) nextClip = currentLevelWave.GetLevelWaveMusic();
 
             if (currentClip == nextClip) return;
             audioSource.clip = nextClip;
             audioSource.Play();
         }
 
-        private void SpawnWave(LevelConfig currentLevel, int i)
+        private void SpawnEnemyWave(LevelWaveConfig currentLevelWave, int i)
         {
-            var currentWave = currentLevel.GetWaveConfigs()[i];
+            var currentEnemyWave = currentLevelWave.GetEnemyWaveConfigs()[i];
             var enemyPathing = Instantiate(enemyPathingObject).GetComponent<EnemyPathing>();
-            enemyPathing.SetWaveConfig(currentWave);
-            StartCoroutine(SpawnAllEnemiesInWave(currentWave, enemyPathing));
+            enemyPathing.SetEnemyWaveConfig(currentEnemyWave);
+            StartCoroutine(SpawnAllEnemiesInEnemyWave(currentEnemyWave, enemyPathing));
         }
 
-        private IEnumerator SpawnAllEnemiesInWave(WaveConfig waveConfig, EnemyPathing enemyPathing)
+        private IEnumerator SpawnAllEnemiesInEnemyWave(EnemyWaveConfig enemyWaveConfig, EnemyPathing enemyPathing)
         {
             do
             {
-                for (var i = 0; i < waveConfig.GetNumberOfEnemies(); i++)
+                for (var i = 0; i < enemyWaveConfig.GetNumberOfEnemies(); i++)
                 {
-                    SpawnEnemy(waveConfig, enemyPathing);
-                    yield return new WaitForSeconds(waveConfig.GetTimeBetweenSpawns());
+                    SpawnEnemy(enemyWaveConfig, enemyPathing);
+                    yield return new WaitForSeconds(enemyWaveConfig.GetTimeBetweenSpawns());
                 }
-            } while (waveConfig.GetContinuousSpawning());
+            } while (enemyWaveConfig.GetContinuousSpawning());
         }
 
-        private static void SpawnEnemy(WaveConfig waveConfig, EnemyPathing enemyPathing)
+        private static void SpawnEnemy(EnemyWaveConfig enemyWaveConfig, EnemyPathing enemyPathing)
         {
             var enemy = Instantiate(
-                waveConfig.GetEnemyPrefab(),
-                waveConfig.GetWaypoints()[0].position,
+                enemyWaveConfig.GetEnemyPrefab(),
+                enemyWaveConfig.GetWaypoints()[0].position,
                 Quaternion.identity);
             enemyPathing.AddEnemy(enemy);
         }
 
-        private void NextLevel(int levelIndex)
+        private void NextLevelWave(int levelWaveIndex)
         {
             //Enemies are dead. Do your show and lets spawn the new level.
-            int newLevel = levelIndex + 2; // levelIndex + 1 is current level. levelIndex + 2 will give the new level.
-            
-            if (newLevel <= levelConfigs.Count)
+            int newLevelWave =
+                levelWaveIndex + 2; // levelWaveIndex + 1 is current level. levelWaveIndex + 2 will give the new level.
+
+            if (newLevelWave <= levelWaveConfigs.Count)
             {
-                StartCoroutine(WaveOver(newLevel));
+                StartCoroutine(LevelWaveOver(newLevelWave));
             }
             else
             {
-                GameOver();
+                LevelOver(); // It's here in case author forgot to set a final level.
             }
         }
 
-        private IEnumerator WaveOver(int newLevel)
+        private IEnumerator LevelWaveOver(int newLevel)
         {
             waveText.text = initialWaveText.Replace("$1", newLevel.ToString());
             waveText.enabled = true;
@@ -151,10 +154,10 @@ namespace SuicideMission.Spawners
             waveText.enabled = false;
         }
 
-        private void GameOver()
+        private void LevelOver()
         {
             var level = FindObjectOfType<Level>();
-            StartCoroutine(level.WaitAndLoadGameOver(gameOverDelay));
+            level.LoadLevelOverScene();
         }
     }
 }
