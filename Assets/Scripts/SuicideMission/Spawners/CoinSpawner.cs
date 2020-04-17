@@ -11,11 +11,11 @@ namespace SuicideMission.Spawners
         [SerializeField] private float maxSpawningDelay;
         [SerializeField] private float padding = 0.75f;
 
-        private Level level;
+        private LevelLoader levelLoader;
 
         private IEnumerator Start()
         {
-            level = FindObjectOfType<Level>();
+            levelLoader = FindObjectOfType<LevelLoader>();
             yield return new WaitForSeconds(Random.Range(minSpawningDelay, maxSpawningDelay));
             StartCoroutine(Spawn());
         }
@@ -24,8 +24,8 @@ namespace SuicideMission.Spawners
         {
             while (true)
             {
-                var x = Random.Range(level.MinX + padding, level.MaxX - padding);
-                var position = new Vector2(x, level.MaxY - padding);
+                var x = Random.Range(levelLoader.MinX + padding, levelLoader.MaxX - padding);
+                var position = new Vector2(x, levelLoader.MaxY - padding);
                 var coinGameObject = Instantiate(coinObject, position, Quaternion.identity);
                 Coin coin = coinGameObject.GetComponent<Coin>();
                 coinGameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -coin.GetDropSpeed());

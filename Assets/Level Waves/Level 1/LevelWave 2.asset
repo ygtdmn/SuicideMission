@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c270eefc12f8e5e45b4a34ceeb39a9ad, type: 3}
-  m_Name: Level 2
+  m_Name: LevelWave 2
   m_EditorClassIdentifier: 
-  waveConfigs:
+  enemyWaveConfigs:
   - {fileID: 11400000, guid: 589848b5b8ec81641bceb72befa4f71a, type: 2}
   - {fileID: 11400000, guid: 8d9d60733b853ec4294f046a1bccf784, type: 2}
   - {fileID: 11400000, guid: 55faa6fb115a10048b7295333fdf5a6b, type: 2}
   - {fileID: 11400000, guid: 907ddb2c822fbb141813f65f5670db51, type: 2}
-  startingWave: 0
-  timeBetweenWaveSpawns: 1
-  levelMusic: {fileID: 0}
+  startingEnemyWave: 0
+  timeBetweenEnemyWaveSpawns: 1
+  levelWaveMusic: {fileID: 0}
+  isFinalLevelWave: 0

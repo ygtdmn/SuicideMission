@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace SuicideMission.Objects
 {
-    public class Level : MonoBehaviour
+    public class LevelLoader : MonoBehaviour
     {
         [SerializeField] private float startMenuPitch = 1f;
         [SerializeField] private float gamePitch = 1f;
@@ -99,11 +99,6 @@ namespace SuicideMission.Objects
             {
                 musicPlayer.setPitch(pitch);
             }
-        }
-
-        public void QuitGame()
-        {
-            Application.Quit();
         }
 
         private void ResetSession()

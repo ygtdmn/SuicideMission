@@ -156,7 +156,7 @@ namespace SuicideMission.Spawners
 
         private void LevelOver()
         {
-            var level = FindObjectOfType<Level>();
+            var level = FindObjectOfType<LevelLoader>();
             level.LoadLevelOverScene();
         }
     }

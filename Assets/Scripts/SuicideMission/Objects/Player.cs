@@ -40,7 +40,7 @@ namespace SuicideMission.Objects
 
         private float weaponHeat;
 
-        private Level level;
+        private LevelLoader levelLoader;
 
         private bool invincible;
 
@@ -50,7 +50,7 @@ namespace SuicideMission.Objects
             life = initialLife;
             initialHealth = health;
             initialPosition = transform.position;
-            level = FindObjectOfType<Level>();
+            levelLoader = FindObjectOfType<LevelLoader>();
         }
 
         protected override void Update()
@@ -109,13 +109,13 @@ namespace SuicideMission.Objects
                 }
             }
 
-            var newXPos = Mathf.Clamp(transform.position.x + deltaX, level.MinX + paddingX, level.MaxX - paddingX);
-            var newYPos = Mathf.Clamp(transform.position.y + deltaY, level.MinY + paddingY, level.MaxY - paddingY);
+            var newXPos = Mathf.Clamp(transform.position.x + deltaX, levelLoader.MinX + paddingX, levelLoader.MaxX - paddingX);
+            var newYPos = Mathf.Clamp(transform.position.y + deltaY, levelLoader.MinY + paddingY, levelLoader.MaxY - paddingY);
 
             if (teleport)
             {
-                newXPos = Mathf.Clamp(deltaX, level.MinX + paddingX, level.MaxX - paddingX);
-                newYPos = Mathf.Clamp(deltaY, level.MinY + paddingY, level.MaxY - paddingY);
+                newXPos = Mathf.Clamp(deltaX, levelLoader.MinX + paddingX, levelLoader.MaxX - paddingX);
+                newYPos = Mathf.Clamp(deltaY, levelLoader.MinY + paddingY, levelLoader.MaxY - paddingY);
             }
 
             Fire(deltaX, deltaY);
@@ -255,7 +255,7 @@ namespace SuicideMission.Objects
         protected override void Death()
         {
             base.Death();
-            level.LoadGameOver();
+            levelLoader.LoadGameOver();
         }
 
         public void GiveSpeedBoost(float boost, float duration)

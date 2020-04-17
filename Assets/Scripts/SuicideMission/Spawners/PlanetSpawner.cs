@@ -12,19 +12,19 @@ namespace SuicideMission.Spawners
         [SerializeField] private float paddingY = 5f;
 
         private GameObject currentPlanet;
-        private Level level;
+        private LevelLoader levelLoader;
 
         private IEnumerator Start()
         {
-            level = FindObjectOfType<Level>();
+            levelLoader = FindObjectOfType<LevelLoader>();
 
             foreach (var planet in planets)
             {
                 currentPlanet = Instantiate(planetPrefab);
                 currentPlanet.GetComponent<SpriteRenderer>().sprite = planet;
                 var planetTransform = currentPlanet.transform;
-                planetTransform.position = new Vector3(Random.Range(level.MinX + paddingX, level.MaxX - paddingX),
-                    level.MaxY + paddingY,
+                planetTransform.position = new Vector3(Random.Range(levelLoader.MinX + paddingX, levelLoader.MaxX - paddingX),
+                    levelLoader.MaxY + paddingY,
                     planetTransform.position.z);
                 yield return new WaitWhile(() => currentPlanet != null);
             }
@@ -32,7 +32,7 @@ namespace SuicideMission.Spawners
 
         private void Update()
         {
-            if (currentPlanet != null && currentPlanet.transform.position.y <= level.MinY - paddingY)
+            if (currentPlanet != null && currentPlanet.transform.position.y <= levelLoader.MinY - paddingY)
                 Destroy(currentPlanet);
         }
     }
