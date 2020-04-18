@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using SuicideMission.Behavior;
 using SuicideMission.Objects;
 using SuicideMission.ScriptableObjects;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 // ReSharper disable Unity.InefficientPropertyAccess
@@ -157,6 +159,7 @@ namespace SuicideMission.Spawners
         private void LevelOver()
         {
             var level = FindObjectOfType<LevelLoader>();
+            PlayerPrefs.SetInt("LastLevelBeaten", Convert.ToInt32(SceneManager.GetActiveScene().name.Replace("Level", ""))); // Todo move it.
             level.LoadLevelOverScene();
         }
     }

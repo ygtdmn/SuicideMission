@@ -1,16 +1,29 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using SuicideMission.Behavior;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 namespace SuicideMission.Objects
 {
     public class LevelLoader : MonoBehaviour
     {
+        [SerializeField] private int gameOverLoadDelay = 2;
+
+        [Header("Scenes")]
+        [SerializeField] private Object startupScene;
+        [SerializeField] private Object levelChooseScene;
+        [SerializeField] private Object levelOverScene;
+        [SerializeField] private Object loseScene;
+
+        [Header("Game Levels")]
+        [SerializeField] private Object[] levels;
+
+        [Header("Scene Pitches")]
         [SerializeField] private float startMenuPitch = 1f;
         [SerializeField] private float gamePitch = 1f;
         [SerializeField] private float gameOverPitch = .5f;
-        [SerializeField] private int gameOverLoadDelay = 2;
 
         [Header("Game View")]
         [SerializeField] private float minX = -5.6f;
@@ -25,17 +38,9 @@ namespace SuicideMission.Objects
 
         private void Update()
         {
-            if (SceneManager.GetActiveScene().name == "1. Startup Scene")
-            {
-                if (Input.GetButtonDown("Fire1")) LoadLevelChooseScene();
-            }
-            
-            if (SceneManager.GetActiveScene().name == "2. Level Choose Scene")
-            {
-                if (Input.GetButtonDown("Fire1")) LoadFirstLevel();
-            }
-            
-            if (SceneManager.GetActiveScene().name == "4. Lose Scene")
+            if (SceneManager.GetActiveScene().name == startupScene.name
+                || SceneManager.GetActiveScene().name == loseScene.name
+                || SceneManager.GetActiveScene().name == levelOverScene.name)
             {
                 if (Input.GetButtonDown("Fire1")) LoadLevelChooseScene();
             }
@@ -45,31 +50,36 @@ namespace SuicideMission.Objects
         {
             StartCoroutine(WaitAndLoadLevelOver());
         }
-        
+
         private IEnumerator WaitAndLoadLevelOver()
         {
             yield return new WaitForSeconds(gameOverLoadDelay);
-            SceneManager.LoadScene("3. Level Over");
+            SceneManager.LoadScene(levelOverScene.name);
         }
 
         public void LoadStartupScene()
         {
             ResetSession();
-            SceneManager.LoadScene("1. Startup Scene");
+            SceneManager.LoadScene(startupScene.name);
             SetPitch(startMenuPitch);
         }
-        
+
         public void LoadLevelChooseScene()
         {
             ResetSession();
-            SceneManager.LoadScene("2. Level Choose Scene");
+            SceneManager.LoadScene(levelChooseScene.name);
             SetPitch(startMenuPitch);
+        }
+
+        public void LoadLevel(String levelName)
+        {
+            SceneManager.LoadScene(levelName);
         }
 
         public void LoadFirstLevel()
         {
             ResetSession();
-            SceneManager.LoadScene("Level 1");
+            SceneManager.LoadScene(levels[0].name);
             SetPitch(gamePitch);
         }
 
@@ -81,14 +91,14 @@ namespace SuicideMission.Objects
         private IEnumerator WaitAndLoadGameOver()
         {
             yield return new WaitForSeconds(gameOverLoadDelay);
-            SceneManager.LoadScene("4. Lose Scene");
+            SceneManager.LoadScene(loseScene.name);
             SetPitch(gameOverPitch);
         }
 
         public IEnumerator WaitAndLoadGameOver(float delay)
         {
             yield return new WaitForSeconds(delay);
-            SceneManager.LoadScene("4. Lose Scene");
+            SceneManager.LoadScene(loseScene.name);
             SetPitch(gameOverPitch);
         }
 
@@ -106,5 +116,12 @@ namespace SuicideMission.Objects
             var gameSession = FindObjectOfType<GameSession>();
             if (gameSession != null) gameSession.ResetGame();
         }
+        
+        public Object StartupScene => startupScene;
+        public Object LevelChooseScene => levelChooseScene;
+        public Object LevelOverScene => levelOverScene;
+        public Object LoseScene => loseScene;
+
+        public Object[] Levels => levels;
     }
 }
