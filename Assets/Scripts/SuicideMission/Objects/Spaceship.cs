@@ -44,7 +44,7 @@ namespace SuicideMission.Objects
         }
 
         protected abstract void Update();
-        protected abstract void Fire();
+        public abstract void Fire();
 
         protected virtual void Shoot(Direction direction)
         {

@@ -30,7 +30,7 @@ namespace SuicideMission.Objects
             firingSpeed = Random.Range(minTimeBetweenShots, maxTimeBetweenShots);
         }
 
-        protected override void Fire()
+        public override void Fire()
         {
             firingSpeed -= Time.deltaTime;
             if (firingSpeed <= 0f)

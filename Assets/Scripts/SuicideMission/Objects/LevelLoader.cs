@@ -36,13 +36,13 @@ namespace SuicideMission.Objects
         public float MinY => minY;
         public float MaxY => maxY;
 
-        private void Update()
+        public void Input() // Todo change name
         {
             if (SceneManager.GetActiveScene().name == startupScene.name
                 || SceneManager.GetActiveScene().name == loseScene.name
                 || SceneManager.GetActiveScene().name == levelOverScene.name)
             {
-                if (Input.GetButtonDown("Fire1")) LoadLevelChooseScene();
+                LoadLevelChooseScene();
             }
         }
 

@@ -14,7 +14,7 @@ namespace SuicideMission.Objects
         [SerializeField] protected float touchMoveSpeed = 2f;
         [SerializeField] private int initialLife = 2;
         [SerializeField] private int coinNeededForExtraLife = 6;
-        
+
         [Header("Weapon Heat Settings")]
         [SerializeField] private float weaponHeatFactor = 20;
         [SerializeField] private float weaponHeatWaitingTime = 25f;
@@ -26,7 +26,7 @@ namespace SuicideMission.Objects
         private int life;
         private int initialHealth;
         private Vector3 initialPosition;
-        
+
         private float shootingSpeedBoost = 1f;
         private float shootingSpeedBoostRemainingTime = 0f;
 
@@ -34,15 +34,14 @@ namespace SuicideMission.Objects
         private float laserSizeBoostRemainingTime = 0f;
 
         private float trippleLaserBoostRemainingTime = 0f;
-
-        private Coroutine firingCoroutine;
-        private bool firingCoroutineRunning;
-
+        
         private float weaponHeat;
 
         private LevelLoader levelLoader;
 
         private bool invincible;
+
+        private float lastShot;
 
         protected override void Start()
         {
@@ -55,7 +54,6 @@ namespace SuicideMission.Objects
 
         protected override void Update()
         {
-            Move();
             UpdateBoostTimers();
         }
 
@@ -85,14 +83,14 @@ namespace SuicideMission.Objects
                 trippleLaserBoostRemainingTime = 0;
         }
 
-        private void Move()
+        public void Move(float deltaX, float deltaY)
         {
-            var deltaX = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
-            var deltaY = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
+            deltaX = deltaX * Time.deltaTime * moveSpeed;
+            deltaY = deltaY * Time.deltaTime * moveSpeed;
 
             bool teleport = false;
 
-            if (Input.touchCount > 0)
+            /*if (Input.touchCount > 0)
             {
                 Touch touch = Input.GetTouch(0);
                 Vector2 deltaPosition = touch.deltaPosition;
@@ -107,10 +105,12 @@ namespace SuicideMission.Objects
                     deltaY = Camera.main.ScreenToWorldPoint(position).y;
                     teleport = true;
                 }
-            }
+            }*/
 
-            var newXPos = Mathf.Clamp(transform.position.x + deltaX, levelLoader.MinX + paddingX, levelLoader.MaxX - paddingX);
-            var newYPos = Mathf.Clamp(transform.position.y + deltaY, levelLoader.MinY + paddingY, levelLoader.MaxY - paddingY);
+            var newXPos = Mathf.Clamp(transform.position.x + deltaX, levelLoader.MinX + paddingX,
+                levelLoader.MaxX - paddingX);
+            var newYPos = Mathf.Clamp(transform.position.y + deltaY, levelLoader.MinY + paddingY,
+                levelLoader.MaxY - paddingY);
 
             if (teleport)
             {
@@ -118,60 +118,20 @@ namespace SuicideMission.Objects
                 newYPos = Mathf.Clamp(deltaY, levelLoader.MinY + paddingY, levelLoader.MaxY - paddingY);
             }
 
-            Fire(deltaX, deltaY);
+            Fire();
 
             transform.position = new Vector2(newXPos, newYPos);
         }
 
-        protected override void Fire()
+        public override void Fire() //Todo change name
         {
-            Fire(0, 0);
-        }
-
-        private void Fire(float deltaX, float deltaY)
-        {
-            if (deltaX != 0 || deltaY != 0)
-            {
-                StartFiring();
-            }
-            else if (Input.GetButton("Fire1"))
-            {
-                StartFiring();
-            }
-            else
-            {
-                StopFiring();
-            }
-
+            if (lastShot + firingDelay / shootingSpeedBoost >= Time.time) return;
+            
+            Shoot(Direction.Up);
+            lastShot = Time.time;
+            
             if (weaponHeat >= 0) weaponHeat -= Time.deltaTime * weaponHeatReduceFactor;
             heatIndicator.transform.localScale = new Vector3(1, Mathf.Clamp(weaponHeat / weaponHeatFactor, 0, 1), 1);
-        }
-
-        private void StartFiring()
-        {
-            if (!firingCoroutineRunning)
-            {
-                firingCoroutineRunning = true;
-                firingCoroutine = StartCoroutine(FireContinuously());
-            }
-        }
-
-        private void StopFiring()
-        {
-            if (firingCoroutineRunning)
-            {
-                StopCoroutine(firingCoroutine);
-                firingCoroutineRunning = false;
-            }
-        }
-
-        private IEnumerator FireContinuously()
-        {
-            while (true)
-            {
-                Shoot(Direction.Up);
-                yield return new WaitForSeconds(firingDelay / shootingSpeedBoost);
-            }
         }
 
         protected override void Shoot(Direction direction)
@@ -311,7 +271,7 @@ namespace SuicideMission.Objects
         {
             return life;
         }
-        
+
         public int GetTotalHealth()
         {
             return initialHealth;
