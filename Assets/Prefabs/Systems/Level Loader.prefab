@@ -48,6 +48,7 @@ MonoBehaviour:
   levelChooseScene: 2. Level Choose Scene
   levelOverScene: 3. Level Over
   loseScene: 4. Lose Scene
+  winScene: 5. Win Scene
   levels:
   - Level 1
   startMenuPitch: 1
@@ -57,3 +58,4 @@ MonoBehaviour:
   maxX: 5.6
   minY: -10
   maxY: 10
+  pauseIndicator: {fileID: 0}

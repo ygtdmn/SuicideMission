@@ -14,6 +14,7 @@ namespace SuicideMission.Objects
         [SerializeField] private string levelChooseScene;
         [SerializeField] private string levelOverScene;
         [SerializeField] private string loseScene;
+        [SerializeField] private string winScene;
 
         [Header("Game Levels")]
         [SerializeField] private string[] levels;
@@ -41,10 +42,22 @@ namespace SuicideMission.Objects
         {
             if (SceneManager.GetActiveScene().name == startupScene
                 || SceneManager.GetActiveScene().name == loseScene
-                || SceneManager.GetActiveScene().name == levelOverScene)
+                || SceneManager.GetActiveScene().name == levelOverScene
+                || SceneManager.GetActiveScene().name == winScene)
             {
                 LoadLevelChooseScene();
             }
+        }
+        
+        public void LoadWinScene()
+        {
+            StartCoroutine(WaitAndLoadWinScene());
+        }
+
+        private IEnumerator WaitAndLoadWinScene()
+        {
+            yield return new WaitForSeconds(gameOverLoadDelay);
+            SceneManager.LoadScene(winScene);
         }
 
         public void LoadLevelOverScene()
@@ -136,6 +149,7 @@ namespace SuicideMission.Objects
         public string LevelChooseScene => levelChooseScene;
         public string LevelOverScene => levelOverScene;
         public string LoseScene => loseScene;
+        public string WinScene => winScene;
 
         public string[] Levels => levels;
     }

@@ -159,7 +159,15 @@ namespace SuicideMission.Spawners
         {
             var level = FindObjectOfType<LevelLoader>();
             PlayerPrefs.SetInt("LastLevelBeaten", Convert.ToInt32(SceneManager.GetActiveScene().name.Replace("Level", ""))); // Todo move it.
-            level.LoadLevelOverScene();
+            if (level.Levels[level.Levels.Length - 1].Equals(SceneManager.GetActiveScene().name))
+            {
+                level.LoadWinScene();
+            }
+            else
+            {
+                level.LoadLevelOverScene();
+            }
+            
         }
     }
 }
