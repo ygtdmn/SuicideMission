@@ -80,14 +80,11 @@ namespace SuicideMission.Spawners
         private IEnumerator SpawnLevelWave(LevelWaveConfig currentLevelWave)
         {
             ChangeMusic(currentLevelWave);
-            spawning = true;
             for (var i = currentLevelWave.GetStartingEnemyWave(); i < currentLevelWave.GetEnemyWaveConfigs().Count; i++)
             {
                 SpawnEnemyWave(currentLevelWave, i);
                 yield return new WaitForSeconds(currentLevelWave.GetTimeBetweenEnemyWaveSpawns());
             }
-
-            spawning = false;
         }
 
         private void ChangeMusic(LevelWaveConfig currentLevelWave)
@@ -113,6 +110,7 @@ namespace SuicideMission.Spawners
 
         private IEnumerator SpawnAllEnemiesInEnemyWave(EnemyWaveConfig enemyWaveConfig, EnemyPathing enemyPathing)
         {
+            spawning = true;
             do
             {
                 for (var i = 0; i < enemyWaveConfig.GetNumberOfEnemies(); i++)
@@ -121,6 +119,7 @@ namespace SuicideMission.Spawners
                     yield return new WaitForSeconds(enemyWaveConfig.GetTimeBetweenSpawns());
                 }
             } while (enemyWaveConfig.GetContinuousSpawning());
+            spawning = false;
         }
 
         private static void SpawnEnemy(EnemyWaveConfig enemyWaveConfig, EnemyPathing enemyPathing)
