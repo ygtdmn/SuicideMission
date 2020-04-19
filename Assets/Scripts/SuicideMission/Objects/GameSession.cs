@@ -18,7 +18,7 @@ namespace SuicideMission.Objects
             var sceneName = SceneManager.GetActiveScene().name;
 
             if (FindObjectsOfType(GetType()).Length > 1 &&
-                !sceneName.Equals(levelLoader.LoseScene.name) && !sceneName.Equals(levelLoader.LevelOverScene.name))
+                !sceneName.Equals(levelLoader.LoseScene) && !sceneName.Equals(levelLoader.LevelOverScene))
             {
                 Destroy(gameObject);
             }

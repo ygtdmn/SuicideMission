@@ -11,7 +11,6 @@ namespace SuicideMission.Objects
         [SerializeField] private float firingDelay = 0.1f;
         [SerializeField] private float paddingX = 0.75f;
         [SerializeField] private float paddingY = 1.25f;
-        [SerializeField] protected float touchMoveSpeed = 2f;
         [SerializeField] private int initialLife = 2;
         [SerializeField] private int coinNeededForExtraLife = 6;
 
@@ -34,7 +33,7 @@ namespace SuicideMission.Objects
         private float laserSizeBoostRemainingTime = 0f;
 
         private float trippleLaserBoostRemainingTime = 0f;
-        
+
         private float weaponHeat;
 
         private LevelLoader levelLoader;
@@ -85,51 +84,29 @@ namespace SuicideMission.Objects
 
         public void Move(float deltaX, float deltaY)
         {
-            deltaX = deltaX * Time.deltaTime * moveSpeed;
-            deltaY = deltaY * Time.deltaTime * moveSpeed;
+            deltaX *= Time.deltaTime;
+            deltaY *= Time.deltaTime;
 
-            bool teleport = false;
+            var minX = levelLoader.MinX + paddingX;
+            var maxX = levelLoader.MaxX - paddingX;
 
-            /*if (Input.touchCount > 0)
-            {
-                Touch touch = Input.GetTouch(0);
-                Vector2 deltaPosition = touch.deltaPosition;
-                Vector2 position = touch.position;
+            var minY = levelLoader.MinY + paddingY;
+            var maxY = levelLoader.MaxY - paddingY;
 
-                deltaX = deltaPosition.x * Time.deltaTime * touchMoveSpeed;
-                deltaY = deltaPosition.y * Time.deltaTime * touchMoveSpeed;
-
-                if (deltaX == 0 && deltaY == 0)
-                {
-                    deltaX = Camera.main.ScreenToWorldPoint(position).x;
-                    deltaY = Camera.main.ScreenToWorldPoint(position).y;
-                    teleport = true;
-                }
-            }*/
-
-            var newXPos = Mathf.Clamp(transform.position.x + deltaX, levelLoader.MinX + paddingX,
-                levelLoader.MaxX - paddingX);
-            var newYPos = Mathf.Clamp(transform.position.y + deltaY, levelLoader.MinY + paddingY,
-                levelLoader.MaxY - paddingY);
-
-            if (teleport)
-            {
-                newXPos = Mathf.Clamp(deltaX, levelLoader.MinX + paddingX, levelLoader.MaxX - paddingX);
-                newYPos = Mathf.Clamp(deltaY, levelLoader.MinY + paddingY, levelLoader.MaxY - paddingY);
-            }
-
-            Fire();
-
+            var newXPos = Mathf.Clamp(transform.position.x + deltaX, minX, maxX);
+            var newYPos = Mathf.Clamp(transform.position.y + deltaY, minY, maxY);
+            
             transform.position = new Vector2(newXPos, newYPos);
+            Fire();
         }
 
         public override void Fire() //Todo change name
         {
             if (lastShot + firingDelay / shootingSpeedBoost >= Time.time) return;
-            
+
             Shoot(Direction.Up);
             lastShot = Time.time;
-            
+
             if (weaponHeat >= 0) weaponHeat -= Time.deltaTime * weaponHeatReduceFactor;
             heatIndicator.transform.localScale = new Vector3(1, Mathf.Clamp(weaponHeat / weaponHeatFactor, 0, 1), 1);
         }

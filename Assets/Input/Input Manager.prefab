@@ -48,6 +48,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   levelLoader: {fileID: 0}
+  inputActionAsset: {fileID: -944628639613478452, guid: 6715f3692708f694d9c1218dcc5982b4,
+    type: 3}
+  movementSpeed: 10
+  touchSpeedMultiplier: 0.1
+  keyboardSpeedMultiplier: 1
+  gamepadSpeedMultiplier: 1
 --- !u!114 &1704139905
 MonoBehaviour:
   m_ObjectHideFlags: 0

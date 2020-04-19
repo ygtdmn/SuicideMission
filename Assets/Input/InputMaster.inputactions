@@ -28,8 +28,19 @@
                     "id": "44991e9f-16ed-4a37-9533-bd2c5734775d",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "ScaleVector2",
                     "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f2123627-72e6-4bd8-ad9b-31fb3bbc2acc",
+                    "path": "<Touchscreen>/delta",
+                    "interactions": "",
+                    "processors": "ScaleVector2(x=0.1,y=0.1)",
+                    "groups": "Touch",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -39,7 +50,7 @@
                     "id": "f3915a7c-9e72-4e93-b3c9-defbcfbd6bed",
                     "path": "2DVector",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "ScaleVector2",
                     "groups": "",
                     "action": "Move",
                     "isComposite": true,
@@ -135,28 +146,6 @@
                 },
                 {
                     "name": "",
-                    "id": "f2123627-72e6-4bd8-ad9b-31fb3bbc2acc",
-                    "path": "<Touchscreen>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Touch",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6c10b8ec-97a0-4d1c-ab4c-fa2b1572dccd",
-                    "path": "<Touchscreen>/touch0/tap",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Touch",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "05f6913d-c316-48b2-a6bb-e225f14c7960",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
@@ -179,17 +168,6 @@
                 },
                 {
                     "name": "",
-                    "id": "886e731e-7071-4ae4-95c0-e61739dad6fd",
-                    "path": "<Touchscreen>/press",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Touch",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "4fb7160e-6033-4c4a-bd83-c855edb6f20c",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -206,6 +184,28 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d4ef8716-5973-4ef1-a854-07fc626116f7",
+                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b4f978ee-4405-43b3-9f44-31d38b9b8e28",
+                    "path": "<Touchscreen>/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch",
                     "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -247,22 +247,7 @@
             "devices": [
                 {
                     "devicePath": "<Touchscreen>",
-                    "isOptional": true,
-                    "isOR": false
-                },
-                {
-                    "devicePath": "<AndroidGamepad>",
-                    "isOptional": true,
-                    "isOR": false
-                },
-                {
-                    "devicePath": "<AndroidJoystick>",
-                    "isOptional": true,
-                    "isOR": false
-                },
-                {
-                    "devicePath": "<Touchscreen>",
-                    "isOptional": true,
+                    "isOptional": false,
                     "isOR": false
                 }
             ]

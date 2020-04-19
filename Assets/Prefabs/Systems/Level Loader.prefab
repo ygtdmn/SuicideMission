@@ -44,12 +44,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverLoadDelay: 2
-  startupScene: {fileID: 102900000, guid: 4db7c7d02963deb4ab382c492fc638d4, type: 3}
-  levelChooseScene: {fileID: 102900000, guid: 4df2677a4dde9344c86b3ae06145170d, type: 3}
-  levelOverScene: {fileID: 102900000, guid: 8903db6b3d24fd642a7791788ad33017, type: 3}
-  loseScene: {fileID: 102900000, guid: 577ef38ba86596b4abd75c3a877772bb, type: 3}
+  startupScene: 1. Startup Scene
+  levelChooseScene: 2. Level Choose Scene
+  levelOverScene: 3. Level Over
+  loseScene: 4. Lose Scene
   levels:
-  - {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
+  - Level 1
   startMenuPitch: 1
   gamePitch: 1
   gameOverPitch: 0.65
