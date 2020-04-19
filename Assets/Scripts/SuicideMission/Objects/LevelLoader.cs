@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using SuicideMission.Behavior;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -29,6 +28,9 @@ namespace SuicideMission.Objects
         [SerializeField] private float maxX = 5.6f;
         [SerializeField] private float minY = -10f;
         [SerializeField] private float maxY = 10f;
+
+        [Header("Pause")]
+        [SerializeField] private GameObject pauseIndicator;
 
         public float MinX => minX;
         public float MaxX => maxX;
@@ -114,6 +116,20 @@ namespace SuicideMission.Objects
         {
             var gameSession = FindObjectOfType<GameSession>();
             if (gameSession != null) gameSession.ResetGame();
+        }
+
+        public void PauseGame()
+        {
+            if (Time.timeScale > 0)
+            {
+                Time.timeScale = 0;
+                pauseIndicator.SetActive(true);
+            }
+            else
+            {
+                Time.timeScale = 1;
+                pauseIndicator.SetActive(false);
+            }
         }
 
         public string StartupScene => startupScene;
