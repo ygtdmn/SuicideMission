@@ -17,7 +17,7 @@ namespace SuicideMission.Behavior
 
         private void Update()
         {
-            lifeText.text = player.GetLifes().ToString();
+            lifeText.text = Mathf.Clamp(player.GetLifes(), 0, player.GetLifes()).ToString();
         }
     }
 }
