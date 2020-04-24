@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c270eefc12f8e5e45b4a34ceeb39a9ad, type: 3}
+  m_Name: Ladder_32_Private
+  m_EditorClassIdentifier: 
+  enemyWaveConfigs:
+  - {fileID: 11400000, guid: 3c00014f404d038479030a38abf32ca9, type: 2}
+  - {fileID: 11400000, guid: 8a5bbcac6dd39b6478f30ada1daa4dd4, type: 2}
+  - {fileID: 11400000, guid: 206a329bf4f59334683169f80e5a3d98, type: 2}
+  - {fileID: 11400000, guid: cba356f94f8c2c343826ce7d63e3d7f2, type: 2}
+  - {fileID: 11400000, guid: 326e5a1f3228f2b4a844eea5b30f2bff, type: 2}
+  - {fileID: 11400000, guid: 5058e2778ee754e429e8ae6f55703437, type: 2}
+  - {fileID: 11400000, guid: a5f357d775106b847b47f1220b6bbcd5, type: 2}
+  - {fileID: 11400000, guid: f84f96253662e6241b5c640d61a2dad3, type: 2}
+  startingEnemyWave: 0
+  timeBetweenEnemyWaveSpawns: 0
+  levelWaveMusic: {fileID: 0}
+  isFinalLevelWave: 0

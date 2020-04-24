@@ -52,6 +52,7 @@ MonoBehaviour:
   winScene: 6. Win Scene
   levels:
   - Level 1
+  - Level 2
   startMenuPitch: 1
   gamePitch: 1
   gameOverPitch: 0.65
