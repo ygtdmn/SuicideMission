@@ -45,10 +45,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOverLoadDelay: 2
   startupScene: 1. Startup Scene
-  levelChooseScene: 2. Level Choose Scene
-  levelOverScene: 3. Level Over
-  loseScene: 4. Lose Scene
-  winScene: 5. Win Scene
+  storyScene: 2. Story Scene
+  levelChooseScene: 3. Level Choose Scene
+  levelOverScene: 4. Level Over
+  loseScene: 5. Lose Scene
+  winScene: 6. Win Scene
   levels:
   - Level 1
   startMenuPitch: 1

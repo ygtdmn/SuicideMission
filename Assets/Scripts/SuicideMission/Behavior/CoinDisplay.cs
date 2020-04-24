@@ -17,7 +17,7 @@ namespace SuicideMission.Behavior
 
         private void Update()
         {
-            coinText.text = player.GetCoins().ToString();
+            coinText.text = player.Coins.ToString();
         }
     }
 }

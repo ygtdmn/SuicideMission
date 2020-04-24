@@ -75,15 +75,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 35cddff035c605f449a441bca7bedd07, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5a747ec94c7ea6a44aa9514864a0e954, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.12, y: 0.75}
+  m_Size: {x: 1.94, y: 1.68}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &-102609698610034938
@@ -124,30 +124,33 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.048, y: 2.048}
-    newSize: {x: 1.12, y: 0.75}
+    oldSize: {x: 1.94, y: 1.68}
+    newSize: {x: 1.94, y: 1.68}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 1.0067291, y: 0.13283491}
-      - {x: 0.58299077, y: 0.4626174}
-      - {x: 0.4761993, y: 0.41925287}
-      - {x: 0.3769776, y: 0.65408564}
-      - {x: 0.31582567, y: 0.83165073}
-      - {x: -0.329782, y: 0.83165073}
-      - {x: -0.40224302, y: 0.51395607}
-      - {x: -1.027103, y: 0.14679146}
-      - {x: -0.9727727, y: -0.18149519}
-      - {x: -0.62, y: -0.16}
-      - {x: -0.38753906, y: -0.6188164}
-      - {x: -0.10716515, y: -0.8456073}
-      - {x: 0.19582549, y: -0.81165075}
-      - {x: 0.48261693, y: -0.5509033}
-      - {x: 0.9799379, y: -0.17320871}
-      - {x: 0.9931468, y: -0.10604286}
+    - - {x: 0.96999997, y: 0.53999996}
+      - {x: 0.96999997, y: 0.84}
+      - {x: 0.55, y: 0.84}
+      - {x: 0.29, y: 0.68}
+      - {x: 0.21, y: 0.59999996}
+      - {x: -0.07, y: 0.59999996}
+      - {x: -0.29, y: 0.65999997}
+      - {x: -0.51, y: 0.82}
+      - {x: -0.57, y: 0.84}
+      - {x: -0.96999997, y: 0.84}
+      - {x: -0.96999997, y: 0.59999996}
+      - {x: -0.84999996, y: 0.14}
+      - {x: -0.61, y: -0.62}
+      - {x: -0.55, y: -0.68}
+      - {x: -0.29, y: -0.84}
+      - {x: 0.26999998, y: -0.84}
+      - {x: 0.37, y: -0.74}
+      - {x: 0.57, y: -0.68}
+      - {x: 0.61, y: -0.59999996}
 --- !u!114 &3807085970072825808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +182,7 @@ MonoBehaviour:
   cameraPosition: {x: 0, y: 0, z: 0}
   minTimeBetweenShots: 3
   maxTimeBetweenShots: 4
+  shootChance: 1
   scoreToGive: 1000
 --- !u!114 &-7316000694450224216
 MonoBehaviour:

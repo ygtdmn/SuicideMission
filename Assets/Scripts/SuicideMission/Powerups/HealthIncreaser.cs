@@ -16,7 +16,7 @@ namespace SuicideMission.Powerups
 
         private void AddHealth()
         {
-            player.SetHealth(player.GetHealth() + healthToAdd);
+            player.Health += healthToAdd;
             Destroy(gameObject);
         }
     }

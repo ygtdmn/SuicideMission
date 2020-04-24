@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c270eefc12f8e5e45b4a34ceeb39a9ad, type: 3}
+  m_Name: UpdownStraight_50_Private
+  m_EditorClassIdentifier: 
+  enemyWaveConfigs:
+  - {fileID: 11400000, guid: c2082e57cfede1f4790a1887b4e0f323, type: 2}
+  - {fileID: 11400000, guid: fe11d02108f008e47bcd853ac92d221c, type: 2}
+  - {fileID: 11400000, guid: 728867a930750a44fb6b9162f03387c6, type: 2}
+  - {fileID: 11400000, guid: 005b5b099fdcf3b4385267fd5539f755, type: 2}
+  - {fileID: 11400000, guid: 3c5c49864fb84e649bbefde0264185c0, type: 2}
+  startingEnemyWave: 0
+  timeBetweenEnemyWaveSpawns: 0
+  levelWaveMusic: {fileID: 0}
+  isFinalLevelWave: 0

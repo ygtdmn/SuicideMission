@@ -15,11 +15,11 @@ namespace SuicideMission.Behavior
         [SerializeField] private Sprite[] hitSprites;
 
         [Header("Color")]
-        [SerializeField] private bool colorActive = false;
+        [SerializeField] private bool colorActive;
         [SerializeField] private Gradient gradient;
 
         [Header("Color Flash")]
-        [SerializeField] private bool colorFlashActive = false;
+        [SerializeField] private bool colorFlashActive;
         [SerializeField] private Color flashColor = Color.red;
         [SerializeField] private int flashSpeed = 7;
 
@@ -29,7 +29,7 @@ namespace SuicideMission.Behavior
 
         [Header("Hit Background")]
         [SerializeField] private GameObject hitBackgroundObject;
-        [SerializeField] private float minBackgroundAlpha = 0f;
+        [SerializeField] private float minBackgroundAlpha;
         [SerializeField] private float maxBackgroundAlpha = 0.5f;
 
         private SpriteRenderer spriteRenderer;
@@ -38,19 +38,19 @@ namespace SuicideMission.Behavior
 
         private int initialHealth;
 
-        private bool colorFlashInvoked = false;
-        private float colorFlashTimer = 0;
+        private bool colorFlashInvoked;
+        private float colorFlashTimer;
         private Color initialColor;
         private Color colorToChange;
 
-        private bool backgroundChangeInvoked = false;
-        private float backgroundChangeTimer = 0;
+        private bool backgroundChangeInvoked;
+        private float backgroundChangeTimer;
         private float initialBackgroundAlpha;
 
         private void Start()
         {
             spaceship = GetComponent<Spaceship>();
-            initialHealth = spaceship.GetHealth();
+            initialHealth = spaceship.Health;
             colorToChange = flashColor;
 
             if (hitSprites.Length > 0 || colorActive || colorFlashActive)
@@ -104,7 +104,7 @@ namespace SuicideMission.Behavior
 
         private void ChangeSprite()
         {
-            var health = spaceship.GetHealth();
+            var health = spaceship.Health;
             var index = hitSprites.Length - Mathf.CeilToInt(health / (initialHealth / (hitSprites.Length + 1)));
             index = Mathf.Min(index, hitSprites.Length);
             spriteRenderer.sprite = hitSprites[index];
@@ -112,7 +112,7 @@ namespace SuicideMission.Behavior
 
         private void ChangeColor()
         {
-            var health = spaceship.GetHealth();
+            var health = spaceship.Health;
             spriteRenderer.color = gradient.Evaluate((float) health / initialHealth);
         }
 

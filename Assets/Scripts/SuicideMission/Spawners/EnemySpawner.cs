@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 // ReSharper disable Unity.InefficientPropertyAccess
 namespace SuicideMission.Spawners
@@ -27,7 +28,6 @@ namespace SuicideMission.Spawners
         private string initialWaveText;
         private AudioSource audioSource;
         private AudioClip defaultClip;
-        private bool spawning;
 
         private void Start()
         {
@@ -63,7 +63,7 @@ namespace SuicideMission.Spawners
                 StartCoroutine(SpawnLevelWave(currentLevelWave));
 
                 // Check if enemies are alive at this point
-                yield return new WaitWhile(() => FindObjectsOfType<Enemy>().Length > 0 || spawning);
+                yield return new WaitWhile(() => FindObjectsOfType<Enemy>().Length > 0 || currentLevelWave.WaveSpawning);
 
                 if (currentLevelWave.IsFinalLevel())
                 {
@@ -79,11 +79,12 @@ namespace SuicideMission.Spawners
 
         private IEnumerator SpawnLevelWave(LevelWaveConfig currentLevelWave)
         {
+            currentLevelWave.WaveSpawning = true;
             ChangeMusic(currentLevelWave);
-            for (var i = currentLevelWave.GetStartingEnemyWave(); i < currentLevelWave.GetEnemyWaveConfigs().Count; i++)
+            for (var i = currentLevelWave.StartingEnemyWave; i < currentLevelWave.EnemyWaveConfigs.Count; i++)
             {
                 SpawnEnemyWave(currentLevelWave, i);
-                yield return new WaitForSeconds(currentLevelWave.GetTimeBetweenEnemyWaveSpawns());
+                yield return new WaitForSeconds(currentLevelWave.TimeBetweenEnemyWaveSpawns);
             }
         }
 
@@ -93,7 +94,7 @@ namespace SuicideMission.Spawners
             var currentClip = audioSource.clip;
             var nextClip = defaultClip;
 
-            if (currentLevelWave.GetLevelWaveMusic() != null) nextClip = currentLevelWave.GetLevelWaveMusic();
+            if (currentLevelWave.LevelWaveMusic != null) nextClip = currentLevelWave.LevelWaveMusic;
 
             if (currentClip == nextClip) return;
             audioSource.clip = nextClip;
@@ -102,33 +103,58 @@ namespace SuicideMission.Spawners
 
         private void SpawnEnemyWave(LevelWaveConfig currentLevelWave, int i)
         {
-            var currentEnemyWave = currentLevelWave.GetEnemyWaveConfigs()[i];
+            var currentEnemyWave = currentLevelWave.EnemyWaveConfigs[i];
             var enemyPathing = Instantiate(enemyPathingObject).GetComponent<EnemyPathing>();
             enemyPathing.SetEnemyWaveConfig(currentEnemyWave);
-            StartCoroutine(SpawnAllEnemiesInEnemyWave(currentEnemyWave, enemyPathing));
+            StartCoroutine(SpawnAllEnemiesInEnemyWave(currentEnemyWave, enemyPathing, currentLevelWave,
+                i == currentLevelWave.EnemyWaveConfigs.Count - 1));
         }
 
-        private IEnumerator SpawnAllEnemiesInEnemyWave(EnemyWaveConfig enemyWaveConfig, EnemyPathing enemyPathing)
+        private IEnumerator SpawnAllEnemiesInEnemyWave(EnemyWaveConfig enemyWaveConfig, EnemyPathing enemyPathing,
+            LevelWaveConfig currentLevelWave, bool last)
         {
-            spawning = true;
+            yield return new WaitForSeconds(enemyWaveConfig.SpawnDelay);
             do
             {
-                for (var i = 0; i < enemyWaveConfig.GetNumberOfEnemies(); i++)
+                for (var i = 0; i < enemyWaveConfig.NumberOfEnemies; i++)
                 {
                     SpawnEnemy(enemyWaveConfig, enemyPathing);
-                    yield return new WaitForSeconds(enemyWaveConfig.GetTimeBetweenSpawns());
+                    yield return new WaitForSeconds(Random.Range(enemyWaveConfig.MinTimeBetweenSpawns,
+                        enemyWaveConfig.MaxTimeBetweenSpawns));
                 }
-            } while (enemyWaveConfig.GetContinuousSpawning());
-            spawning = false;
+            } while (enemyWaveConfig.ContinuousSpawning &&
+                     (currentLevelWave.WaveSpawning || FindObjectsOfType<Enemy>().Length > 0));
+
+            if (last)
+            {
+                currentLevelWave.WaveSpawning = false;
+            }
         }
 
         private static void SpawnEnemy(EnemyWaveConfig enemyWaveConfig, EnemyPathing enemyPathing)
         {
             var enemy = Instantiate(
-                enemyWaveConfig.GetEnemyPrefab(),
+                enemyWaveConfig.EnemyPrefab,
                 enemyWaveConfig.GetWaypoints()[0].position,
                 Quaternion.identity);
+            var enemyComp = enemy.GetComponent<Enemy>();
+            SetEnemyAttributes(enemyWaveConfig, enemyComp);
             enemyPathing.AddEnemy(enemy);
+        }
+
+        private static void SetEnemyAttributes(EnemyWaveConfig enemyWaveConfig, Enemy enemyComp)
+        {
+            if (enemyWaveConfig.Health != 0) enemyComp.Health = enemyWaveConfig.Health;
+            if (enemyWaveConfig.MoveSpeed != 0) enemyComp.MoveSpeed = enemyWaveConfig.MoveSpeed;
+            if (enemyWaveConfig.ProjectileDamage != 0) enemyComp.ProjectileDamage = enemyWaveConfig.ProjectileDamage;
+            if (enemyWaveConfig.CollisionDamage != 0) enemyComp.CollisionDamage = enemyWaveConfig.CollisionDamage;
+            if (enemyWaveConfig.ProjectileSpeed != 0) enemyComp.ProjectileSpeed = enemyWaveConfig.ProjectileSpeed;
+            if (enemyWaveConfig.MinTimeBetweenShots != 0)
+                enemyComp.MinTimeBetweenShots = enemyWaveConfig.MinTimeBetweenShots;
+            if (enemyWaveConfig.MaxTimeBetweenShots != 0)
+                enemyComp.MaxTimeBetweenShots = enemyWaveConfig.MaxTimeBetweenShots;
+            if (enemyWaveConfig.ShootChance != 0) enemyComp.ShootChance = enemyWaveConfig.ShootChance;
+            if (enemyWaveConfig.ScoreToGive != 0) enemyComp.ScoreToGive = enemyWaveConfig.ScoreToGive;
         }
 
         private void NextLevelWave(int levelWaveIndex)
@@ -158,7 +184,8 @@ namespace SuicideMission.Spawners
         private void LevelOver()
         {
             var level = FindObjectOfType<LevelLoader>();
-            PlayerPrefs.SetInt("LastLevelBeaten", Convert.ToInt32(SceneManager.GetActiveScene().name.Replace("Level", ""))); // Todo move it.
+            PlayerPrefs.SetInt("LastLevelBeaten",
+                Convert.ToInt32(SceneManager.GetActiveScene().name.Replace("Level ", ""))); // Todo move it.
             if (level.Levels[level.Levels.Length - 1].Equals(SceneManager.GetActiveScene().name))
             {
                 level.LoadWinScene();
@@ -167,7 +194,6 @@ namespace SuicideMission.Spawners
             {
                 level.LoadLevelOverScene();
             }
-            
         }
     }
 }

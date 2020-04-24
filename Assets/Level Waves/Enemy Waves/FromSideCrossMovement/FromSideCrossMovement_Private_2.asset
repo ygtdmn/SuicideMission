@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b5f008caf09dad42846559b3a9dc8df, type: 3}
+  m_Name: FromSideCrossMovement_Private_2
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 4118652050944692867, guid: b281257de4e25c24c81f91c9ad08f2d7,
+    type: 3}
+  pathPrefab: {fileID: 6336527541800670118, guid: 7dba28dcc9a48d04889e5a7e10901c7b,
+    type: 3}
+  minTimeBetweenSpawns: 0.1
+  maxTimeBetweenSpawns: 0.1
+  numberOfEnemies: 15
+  spawnDelay: 2
+  continuousSpawning: 0
+  pathLooping: 0
+  destroyAfterPathEnded: 0
+  health: 300
+  moveSpeed: 50
+  projectileDamage: 0
+  collisionDamage: 0
+  projectileSpeed: 5
+  minTimeBetweenShots: 10
+  maxTimeBetweenShots: 30
+  shootChance: 0.5
+  scoreToGive: 0

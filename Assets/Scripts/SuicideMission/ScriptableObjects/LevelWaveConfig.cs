@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace SuicideMission.ScriptableObjects
 {
@@ -13,25 +12,16 @@ namespace SuicideMission.ScriptableObjects
         [SerializeField] private AudioClip levelWaveMusic;
         [SerializeField] private bool isFinalLevelWave;
 
-        public List<EnemyWaveConfig> GetEnemyWaveConfigs()
-        {
-            return enemyWaveConfigs;
-        }
+        // State
+        public bool WaveSpawning { get; set; }
 
-        public int GetStartingEnemyWave()
-        {
-            return startingEnemyWave;
-        }
+        public List<EnemyWaveConfig> EnemyWaveConfigs => enemyWaveConfigs;
 
-        public float GetTimeBetweenEnemyWaveSpawns()
-        {
-            return timeBetweenEnemyWaveSpawns;
-        }
+        public int StartingEnemyWave => startingEnemyWave;
 
-        public AudioClip GetLevelWaveMusic()
-        {
-            return levelWaveMusic;
-        }
+        public float TimeBetweenEnemyWaveSpawns => timeBetweenEnemyWaveSpawns;
+
+        public AudioClip LevelWaveMusic => levelWaveMusic;
 
         public bool IsFinalLevel() => isFinalLevelWave;
     }

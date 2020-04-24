@@ -34,13 +34,14 @@ namespace SuicideMission.Objects
         protected float destroyBulletAfterSeconds;
         public Vector3 cameraPosition;
 
+
         protected virtual void Start()
         {
             cameraPosition = Camera.main.transform.position;
 
-            destroyBulletAfterSeconds = Camera.main.orthographicSize * 2 / projectileSpeed;
+            destroyBulletAfterSeconds = Camera.main.orthographicSize * 2 / ProjectileSpeed;
 
-            if (GetComponent<DamageDealer>() != null) GetComponent<DamageDealer>().SetDamage(collisionDamage);
+            if (GetComponent<DamageDealer>() != null) GetComponent<DamageDealer>().SetDamage(CollisionDamage);
         }
 
         protected abstract void Update();
@@ -49,8 +50,8 @@ namespace SuicideMission.Objects
         protected virtual void Shoot(Direction direction)
         {
             var laserBean = Instantiate(laser, transform.position, laser.transform.rotation);
-            laserBean.GetComponent<DamageDealer>().SetDamage(projectileDamage);
-            laserBean.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectileSpeed * (int) direction);
+            laserBean.GetComponent<DamageDealer>().SetDamage(ProjectileDamage);
+            laserBean.GetComponent<Rigidbody2D>().velocity = new Vector2(0, ProjectileSpeed * (int) direction);
             Destroy(laserBean, destroyBulletAfterSeconds);
             AudioSource.PlayClipAtPoint(shootSound, cameraPosition, shootSoundVolume);
         }
@@ -64,9 +65,9 @@ namespace SuicideMission.Objects
 
         protected virtual void ProcessHit(DamageDealer damageDealer)
         {
-            health = Mathf.Max(0, health - damageDealer.GetDamage());
+            Health = Mathf.Max(0, Health - damageDealer.GetDamage());
             damageDealer.Hit();
-            if (health <= 0)
+            if (Health <= 0)
             {
                 TryDeath();
             }
@@ -111,26 +112,31 @@ namespace SuicideMission.Objects
             }
         }
 
-        // Getters
-        public int GetHealth()
-        {
-            return health;
-        }
 
-        public float GetMoveSpeed()
+        public int Health
         {
-            return moveSpeed;
+            get => health;
+            set => health = value;
         }
-
-        // Setters
-        public int SetHealth(int health)
+        public float MoveSpeed
         {
-            return this.health = health;
+            get => moveSpeed;
+            set => moveSpeed = value;
         }
-
-        public float SetMoveSpeed(float moveSpeed)
+        public int ProjectileDamage
         {
-            return this.moveSpeed = moveSpeed;
+            get => projectileDamage;
+            set => projectileDamage = value;
+        }
+        public int CollisionDamage
+        {
+            get => collisionDamage;
+            set => collisionDamage = value;
+        }
+        public float ProjectileSpeed
+        {
+            get => projectileSpeed;
+            set => projectileSpeed = value;
         }
     }
 }

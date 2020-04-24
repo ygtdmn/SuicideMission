@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3807085970072825808}
   - component: {fileID: -7316000694450224216}
   - component: {fileID: 3451641699466506827}
+  - component: {fileID: 1532364311}
   m_Layer: 9
   m_Name: Private
   m_TagString: Enemy
@@ -160,7 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  moveSpeed: 3.5
+  moveSpeed: 5
   projectileDamage: 100
   collisionDamage: 1000
   laser: {fileID: 6086165782137368956, guid: adfc1c8c0d71b3b4db3723528a07896f, type: 3}
@@ -182,6 +183,7 @@ MonoBehaviour:
   cameraPosition: {x: 0, y: 0, z: 0}
   minTimeBetweenShots: 1.5
   maxTimeBetweenShots: 2.5
+  shootChance: 1
   scoreToGive: 100
 --- !u!114 &-7316000694450224216
 MonoBehaviour:
@@ -197,21 +199,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitParticle: {fileID: 0}
   hitSprites: []
-  colorActive: 0
+  colorActive: 1
   gradient:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 1, g: 0.3537736, b: 0.3537736, a: 1}
     key1: {r: 1, g: 1, b: 1, a: 1}
-    key2: {r: 0, g: 0, b: 0, a: 0}
-    key3: {r: 0, g: 0, b: 0, a: 0}
+    key2: {r: 1, g: 1, b: 1, a: 0}
+    key3: {r: 1, g: 1, b: 1, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
     ctime1: 65535
-    ctime2: 0
-    ctime3: 0
+    ctime2: 65535
+    ctime3: 65535
     ctime4: 0
     ctime5: 0
     ctime6: 0
@@ -228,7 +230,7 @@ MonoBehaviour:
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   colorFlashActive: 0
-  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashColor: {r: 1, g: 0.5235849, b: 0.5235849, a: 1}
   flashSpeed: 7
   soundEffect: {fileID: 0}
   soundEffectVolume: 0.3
@@ -247,3 +249,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a679f82b1ac7fdc46b33257ace70e9e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1532364311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4118652050944692867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b87789dfde414d14a44fde9fb7468fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeXmin: -0.05
+  shakeXmax: 0.05
+  shakeYmin: -0.05
+  shakeYmax: 0.05
+  shakeFrequency: 0.33

@@ -20,10 +20,10 @@ namespace SuicideMission.Objects
         [SerializeField] private float weaponHeatReduceFactor = 6;
         [SerializeField] private GameObject heatIndicator;
 
-        private int coins;
-
-        private int life;
-        private int initialHealth;
+        public int Coins { get; private set; }
+        public int Life { get; private set; }
+        public int InitialHealth { get; private set; }
+        
         private Vector3 initialPosition;
 
         private float shootingSpeedBoost = 1f;
@@ -45,8 +45,8 @@ namespace SuicideMission.Objects
         protected override void Start()
         {
             base.Start();
-            life = initialLife;
-            initialHealth = health;
+            Life = initialLife;
+            InitialHealth = Health;
             initialPosition = transform.position;
             levelLoader = FindObjectOfType<LevelLoader>();
         }
@@ -95,7 +95,7 @@ namespace SuicideMission.Objects
 
             var newXPos = Mathf.Clamp(transform.position.x + deltaX, minX, maxX);
             var newYPos = Mathf.Clamp(transform.position.y + deltaY, minY, maxY);
-            
+
             transform.position = new Vector2(newXPos, newYPos);
             Fire();
         }
@@ -144,8 +144,8 @@ namespace SuicideMission.Objects
                         }
                     }
 
-                laserBean.GetComponent<DamageDealer>().SetDamage(projectileDamage);
-                laserBean.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectileSpeed * (int) direction);
+                laserBean.GetComponent<DamageDealer>().SetDamage(ProjectileDamage);
+                laserBean.GetComponent<Rigidbody2D>().velocity = new Vector2(0, ProjectileSpeed * (int) direction);
                 Destroy(laserBean, destroyBulletAfterSeconds);
             }
 
@@ -161,7 +161,7 @@ namespace SuicideMission.Objects
 
         protected override void TryDeath()
         {
-            if (--life <= 0)
+            if (--Life <= 0)
             {
                 Death();
             }
@@ -182,7 +182,7 @@ namespace SuicideMission.Objects
         {
             SetInvincible(true);
             transform.position = initialPosition;
-            health = initialHealth;
+            Health = InitialHealth;
             GetComponent<Blink>().SetActive(true);
             yield return new WaitForSeconds(2);
             GetComponent<Blink>().SetActive(false);
@@ -229,41 +229,14 @@ namespace SuicideMission.Objects
             trippleLaserBoostRemainingTime += duration;
         }
 
-        public float GetFiringDelay()
-        {
-            return firingDelay;
-        }
-
-        public float SetFiringDelay(float firingDelay)
-        {
-            return this.firingDelay = firingDelay;
-        }
-
-        private void SetInvincible(bool val)
-        {
-            invincible = val;
-        }
-
-        public int GetLifes()
-        {
-            return life;
-        }
-
-        public int GetTotalHealth()
-        {
-            return initialHealth;
-        }
-
-        public int GetCoins() => coins;
+        private void SetInvincible(bool val) => invincible = val;
 
         public void AddCoins(int coin)
         {
-            coins += coin;
-            if (coins >= coinNeededForExtraLife)
-            {
-                coins = 0;
-                life++;
-            }
+            Coins += coin;
+            if (Coins < coinNeededForExtraLife) return;
+            Coins = 0;
+            Life++;
         }
     }
 }

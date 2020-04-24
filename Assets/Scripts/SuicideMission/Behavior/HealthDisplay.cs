@@ -16,8 +16,8 @@ namespace SuicideMission.Behavior
 
         private void Update()
         {
-            float health = player.GetHealth();
-            float totalHealth = player.GetTotalHealth();
+            float health = player.Health;
+            float totalHealth = player.InitialHealth;
 
             lifeSpriteRenderer.transform.localScale =
                 new Vector3(1, Mathf.Clamp(health / totalHealth, 0, 1), 1);

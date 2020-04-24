@@ -11,6 +11,7 @@ namespace SuicideMission.Objects
 
         [Header("Scenes")]
         [SerializeField] private string startupScene;
+        [SerializeField] private string storyScene;
         [SerializeField] private string levelChooseScene;
         [SerializeField] private string levelOverScene;
         [SerializeField] private string loseScene;
@@ -40,13 +41,23 @@ namespace SuicideMission.Objects
 
         public void Input() // Todo change name
         {
-            if (SceneManager.GetActiveScene().name == startupScene
+            if (SceneManager.GetActiveScene().name == storyScene
                 || SceneManager.GetActiveScene().name == loseScene
                 || SceneManager.GetActiveScene().name == levelOverScene
                 || SceneManager.GetActiveScene().name == winScene)
             {
                 LoadLevelChooseScene();
             }
+
+            if (SceneManager.GetActiveScene().name == startupScene)
+            {
+                LoadStoryScene();
+            }
+        }
+
+        private void LoadStoryScene()
+        {
+            SceneManager.LoadScene(storyScene);
         }
         
         public void LoadWinScene()
@@ -146,6 +157,7 @@ namespace SuicideMission.Objects
         }
 
         public string StartupScene => startupScene;
+        public string StoryScene => storyScene;
         public string LevelChooseScene => levelChooseScene;
         public string LevelOverScene => levelOverScene;
         public string LoseScene => loseScene;

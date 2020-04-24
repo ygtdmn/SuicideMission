@@ -275,11 +275,11 @@ MonoBehaviour:
   animationSpeed: 2
   destoryAnimationAfterSeconds: 0.5
   cameraPosition: {x: 0, y: 0, z: 0}
-  firingDelay: 0.1
+  firingDelay: 0.2
   paddingX: 0.75
   paddingY: 1.25
-  touchMoveSpeed: 2
   initialLife: 2
+  coinNeededForExtraLife: 6
   weaponHeatFactor: 20
   weaponHeatWaitingTime: 25
   weaponHeatReduceFactor: 6
