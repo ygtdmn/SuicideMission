@@ -10,12 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c270eefc12f8e5e45b4a34ceeb39a9ad, type: 3}
-  m_Name: SpaceInvaders_39_Private_2_Lieutenant
+  m_Name: EvilEyes
   m_EditorClassIdentifier: 
   enemyWaveConfigs:
-  - {fileID: 11400000, guid: 044a065035c7a3c4db82d310b2a14627, type: 2}
-  - {fileID: 11400000, guid: 0febaea6e211c6b4d84a48fca0fad2a5, type: 2}
-  - {fileID: 11400000, guid: 17a3865da4ccdce44a3183eea2c6bc24, type: 2}
+  - {fileID: 11400000, guid: b1a23b2b4dd6484468fe9011a3cae3a7, type: 2}
+  - {fileID: 11400000, guid: c0728a2752337dd438dc7d116a55163a, type: 2}
+  - {fileID: 11400000, guid: 8c0e1c64c1ddaaa49bf4ea004fb50edc, type: 2}
+  - {fileID: 11400000, guid: b1db8237de05c5841a08d935f0686d6b, type: 2}
+  - {fileID: 11400000, guid: cec63620734a35141a14609213544f7f, type: 2}
+  - {fileID: 11400000, guid: 7f4ec9b98c5f55c489fa8c346dc1c613, type: 2}
   startingEnemyWave: 0
   timeBetweenEnemyWaveSpawns: 0
   levelWaveMusic: {fileID: 0}

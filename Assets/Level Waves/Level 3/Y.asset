@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c270eefc12f8e5e45b4a34ceeb39a9ad, type: 3}
-  m_Name: SpaceInvaders_39_Private_2_Lieutenant
+  m_Name: Y
   m_EditorClassIdentifier: 
   enemyWaveConfigs:
-  - {fileID: 11400000, guid: 044a065035c7a3c4db82d310b2a14627, type: 2}
-  - {fileID: 11400000, guid: 0febaea6e211c6b4d84a48fca0fad2a5, type: 2}
-  - {fileID: 11400000, guid: 17a3865da4ccdce44a3183eea2c6bc24, type: 2}
+  - {fileID: 11400000, guid: 8f32638fb0e19d84fbd7c225730b649e, type: 2}
+  - {fileID: 11400000, guid: 2b61748eb1a86af44b78ea8b56d631cb, type: 2}
   startingEnemyWave: 0
   timeBetweenEnemyWaveSpawns: 0
   levelWaveMusic: {fileID: 0}
-  isFinalLevelWave: 1
+  isFinalLevelWave: 0

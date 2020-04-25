@@ -21,4 +21,4 @@ MonoBehaviour:
   startingEnemyWave: 0
   timeBetweenEnemyWaveSpawns: 0
   levelWaveMusic: {fileID: 0}
-  isFinalLevelWave: 0
+  isFinalLevelWave: 1

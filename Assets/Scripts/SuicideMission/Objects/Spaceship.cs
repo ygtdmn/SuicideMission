@@ -2,6 +2,7 @@
 using SuicideMission.Enums;
 using SuicideMission.Utils;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace SuicideMission.Objects
 {
@@ -29,7 +30,7 @@ namespace SuicideMission.Objects
         [Header("Death Animation")]
         [SerializeField] protected GameObject deathAnimation;
         [SerializeField] protected float animationSpeed = 2f;
-        [SerializeField] protected float destoryAnimationAfterSeconds = 0.5f;
+        [SerializeField] protected float destroyAnimationAfterSeconds = 0.5f;
 
         protected float destroyBulletAfterSeconds;
         public Vector3 cameraPosition;
@@ -108,7 +109,7 @@ namespace SuicideMission.Objects
             {
                 var anim = Instantiate(deathAnimation, transform.position, Quaternion.identity);
                 anim.GetComponent<Animator>().speed = animationSpeed;
-                Destroy(anim, destoryAnimationAfterSeconds);
+                Destroy(anim, destroyAnimationAfterSeconds);
             }
         }
 

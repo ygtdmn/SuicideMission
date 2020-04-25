@@ -53,6 +53,7 @@ MonoBehaviour:
   levels:
   - Level 1
   - Level 2
+  - Level 3
   startMenuPitch: 1
   gamePitch: 1
   gameOverPitch: 0.65

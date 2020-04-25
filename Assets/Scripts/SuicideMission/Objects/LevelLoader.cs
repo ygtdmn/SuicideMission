@@ -51,7 +51,8 @@ namespace SuicideMission.Objects
 
             if (SceneManager.GetActiveScene().name == startupScene)
             {
-                LoadStoryScene();
+                //LoadStoryScene();
+                LoadLevelChooseScene();
             }
         }
 
