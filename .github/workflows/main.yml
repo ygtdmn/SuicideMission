@@ -1,4 +1,4 @@
-name: Suicide Mission
+name: Game Build Action
 
 on:
   pull_request: {}
