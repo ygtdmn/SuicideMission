@@ -8,44 +8,36 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:
-  buildAndTestForSomePlatforms:
-    name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
+  build:
+    name: Build my project ✨
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        unityVersion:
-          - 2019.3.11f1
-        targetPlatform:
-          - WebGL # WebGL.
-          - Android
     steps:
-      - uses: actions/checkout@v2
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v2
         with:
           lfs: true
+
+      # Cache
       - uses: actions/cache@v1.1.0
         with:
           path: Library
-          key: Library-${{ matrix.targetPlatform }}
-          restore-keys: |
-            Library-
-      - uses: webbertakken/unity-test-runner@v1.3
-        id: testRunner
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          key: Library
+
+      # Test
+      - name: Run tests
+        uses: webbertakken/unity-test-runner@v1.3
         with:
-          unityVersion: ${{ matrix.unityVersion }}
-      - uses: actions/upload-artifact@v1
+          unityVersion: 2019.3.11f1
+
+      # Build
+      - name: Build project
+        uses: webbertakken/unity-builder@v0.10
         with:
-          name: Test results (all modes)
-          path: ${{ steps.testRunner.outputs.artifactsPath }}
-      - uses: webbertakken/unity-builder@v0.10
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-        with:
-          unityVersion: ${{ matrix.unityVersion }}
-          targetPlatform: ${{ matrix.targetPlatform }}
-          customParameters: '-myParameter myValue -myBoolean -ThirdParameter andItsValue'
+          unityVersion: 2019.3.11f1
+          targetPlatform: WebGL
+
+      # Output
       - uses: actions/upload-artifact@v1
         with:
           name: Build
