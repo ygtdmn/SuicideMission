@@ -2,7 +2,7 @@ name: Game Build Action
 
 on:
   pull_request: {}
-  push: { branches: [master] }
+  push: { branches: [master, github-actions] }
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
